@@ -85,7 +85,7 @@ struct LoginView: View {
                 HStack{
                     Image("metalogo")
                         .resizable()
-                        .frame(width: 35,height: 15)
+                        .frame(width: 32,height: 15)
                     
                     Text("Continue with meta")
                         .font(.footnote)
