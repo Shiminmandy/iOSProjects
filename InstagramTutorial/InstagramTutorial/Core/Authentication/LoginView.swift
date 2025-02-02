@@ -70,17 +70,46 @@ struct LoginView: View {
                     // 拼接
                     Rectangle()
                         .frame(width: (UIScreen.main.bounds.width / 2) - 40, height: 0.5)
-                        .foregroundStyle(.gray)
+                        
                     
                     Text("OR")
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundStyle(.gray)
+                        
                     
                     Rectangle()
                         .frame(width: (UIScreen.main.bounds.width / 2) - 40, height: 0.5)
-                        .foregroundStyle(.gray)
+                       
+                }.foregroundStyle(.gray)
+                
+                HStack{
+                    Image("metalogo")
+                        .resizable()
+                        .frame(width: 35,height: 15)
+                    
+                    Text("Continue with meta")
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color(.systemBlue))
                 }
+                .padding(.top,8)
+                
+                Spacer()
+                
+                Divider()
+                
+                NavigationLink {
+                    Text("Sign up")
+                } label: {
+                    HStack{
+                        Text("Dont have an account?")
+                        
+                        Text("Sign up")
+                            .fontWeight(.semibold)
+                    }
+                    .font(.footnote)
+                }
+                .padding(.vertical,16)
             }
         }
     }
