@@ -22,7 +22,7 @@ extension User{
         .init(id: NSUUID().uuidString, username: "zhaolusi1", profileImageUrl: "lusi2",fullname:"zhaolusi" ,bio: "chinese actress",email: "zhaolusi@gmail.com"),
         .init(id: NSUUID().uuidString, username: "zhaolusi2", profileImageUrl: "lusi1",fullname:"zhaolusi" ,bio: "chinese actress",email: "zhaolusi@gmail.com"),
         .init(id: NSUUID().uuidString, username: "zhaolusi3", profileImageUrl: "lusi3",fullname:"zhaolusi" ,bio: "chinese actress",email: "zhaolusi@gmail.com"),
-        .init(id: NSUUID().uuidString, username: "zhaolusi4", profileImageUrl: "lusi4",fullname:"zhaolusi" ,bio: "chinese actress",email: "zhaolusi@gmail.com"),
-        .init(id: NSUUID().uuidString, username: "zhaolusi5", profileImageUrl: "lusi5",fullname:"zhaolusi" ,bio: "chinese actress",email: "zhaolusi@gmail.com")
+        .init(id: NSUUID().uuidString, username: "maomao", profileImageUrl: "lusi9",fullname:"maomao" ,bio: "cute cat",email: "cutecat@gmail.com"),
+        .init(id: NSUUID().uuidString, username: "shimin", profileImageUrl: "lusi6",fullname:"shimin" ,bio: "student",email: "shimin@gmail.com")
     ]
 }

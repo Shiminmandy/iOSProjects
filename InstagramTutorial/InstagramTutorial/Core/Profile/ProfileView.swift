@@ -16,6 +16,11 @@ struct ProfileView: View {
         .init(.flexible(), spacing: 1)
     ]
     
+    //同一个用户的所有posts
+    var posts: [Post] {
+        return Post.MOCK_POSTS.filter({$0.user?.username == user.username})
+    }
+    
     var body: some View {
         //NavigationStack {
             ScrollView {
@@ -83,7 +88,7 @@ struct ProfileView: View {
                 
                 LazyVGrid(columns: gridItem, spacing: 1){
                     ForEach(0 ... 15, id: \.self){ index in
-                        Image("lusi3")
+                        Image(user.profileImageUrl ?? "")
                             .resizable()
                             .scaledToFill()
                     }
