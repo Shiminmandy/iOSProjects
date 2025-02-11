@@ -24,9 +24,9 @@ extension Post{
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 19,
-              imageUrl: "lusi0",
+              imageUrl: "lusi10",
               timestamp: Date(),
-              user: User.MOCK_USERS[0]),
+              user: User.MOCK_USERS[3]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
@@ -66,9 +66,16 @@ extension Post{
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 67,
-              imageUrl: "lusi6",
+              imageUrl: "lusi12",
               timestamp: Date(),
-              user: User.MOCK_USERS[4])
+              user: User.MOCK_USERS[4]),
+        .init(id: NSUUID().uuidString,
+              ownerUid: NSUUID().uuidString,
+              caption: "This is some test caption for now",
+              likes: 67,
+              imageUrl: "lusi3",
+              timestamp: Date(),
+              user: User.MOCK_USERS[0])
 
     ]
 }
