@@ -10,6 +10,7 @@ import FirebaseAuth
 import Combine
 
 // listening for changes
+
 class ContentViewModel: ObservableObject {
     
     private let service = AuthService.shared
