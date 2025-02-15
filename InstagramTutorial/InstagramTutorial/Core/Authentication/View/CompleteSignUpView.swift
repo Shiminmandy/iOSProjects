@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct CompleteSignUpView: View {
 
     @EnvironmentObject var viewModel: RegisrationViewModel
@@ -28,6 +29,7 @@ struct CompleteSignUpView: View {
             
             
             Button{
+                
                 Task{
                     try await viewModel.createUser()
                 }
