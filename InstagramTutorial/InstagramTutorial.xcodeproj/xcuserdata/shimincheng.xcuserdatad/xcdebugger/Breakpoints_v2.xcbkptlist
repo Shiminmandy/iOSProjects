@@ -8,67 +8,23 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "55180ED9-FF5D-4CEE-8606-FD40A659E20C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "InstagramTutorial/Core/Authentication/Service/AuthService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "loadUserData()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "55180ED9-FF5D-4CEE-8606-FD40A659E20C - b4d7af855f8f39a6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for InstagramTutorial.AuthService.loadUserData() async throws -&gt; ()"
-                  moduleName = "InstagramTutorial.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shimincheng/Desktop/YouTubeProjects/InstagramTutorial/InstagramTutorial/Core/Authentication/Service/AuthService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68">
-               </Location>
-               <Location
-                  uuid = "55180ED9-FF5D-4CEE-8606-FD40A659E20C - e39e9dd5cd0284a0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for InstagramTutorial.AuthService.loadUserData() async throws -&gt; ()"
-                  moduleName = "InstagramTutorial.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shimincheng/Desktop/YouTubeProjects/InstagramTutorial/InstagramTutorial/Core/Authentication/Service/AuthService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68">
-               </Location>
-               <Location
-                  uuid = "55180ED9-FF5D-4CEE-8606-FD40A659E20C - 39f914cdb4442521"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for InstagramTutorial.AuthService.loadUserData() async throws -&gt; ()"
-                  moduleName = "InstagramTutorial.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shimincheng/Desktop/YouTubeProjects/InstagramTutorial/InstagramTutorial/Core/Authentication/Service/AuthService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "BFAAFCD3-D26A-46E8-B05E-4784FA761C00"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "InstagramTutorial/Core/Profile/CurrentUserProfileView.swift"

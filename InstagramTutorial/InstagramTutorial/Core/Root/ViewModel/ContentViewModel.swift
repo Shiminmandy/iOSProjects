@@ -17,6 +17,7 @@ class ContentViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     @Published var userSession: FirebaseAuth.User?
+    // add currentuser for fetch data from backend
     @Published var currentUser: User?
     
     init(){
@@ -25,6 +26,7 @@ class ContentViewModel: ObservableObject {
     
     // 使用combine监听usersession
     // 当 authservice里的 usersession有变化时，sink闭包将新的usersession传给viewmodel中的usersession
+    // 当 authservice里的 currentUser有变化时，sink闭包将新的currentUser传给viewmodel中的currentUser
     func setupSubscribers() {
         service.$userSession.sink { [weak self] userSession in
             self?.userSession = userSession
