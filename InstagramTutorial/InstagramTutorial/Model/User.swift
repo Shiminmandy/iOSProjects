@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseAuth
 
 struct User: Identifiable, Codable,Hashable {
    
@@ -15,13 +17,21 @@ struct User: Identifiable, Codable,Hashable {
     var fullname: String?
     var bio: String?
     let email: String // not allowed user to change the email
+    
+    //add after fetchAllUsers data from backend
+    // get uid of login account from backend 
+    var isCurrentUser: Bool{
+        guard let currentUid = Auth.auth().currentUser?.uid else { return false}
+        return currentUid == id
+    }
 }
+
 
 extension User{
     static var MOCK_USERS: [User] = [
-        .init(id: NSUUID().uuidString, username: "zhaolusi1", profileImageUrl: "lusi2",fullname:"zhaolusi1" ,bio: "chinese actress",email: "zhaolusi@gmail.com"),
-        .init(id: NSUUID().uuidString, username: "zhaolusi2", profileImageUrl: "lusi1",fullname:"zhaolusi2" ,bio: "chinese actress",email: "zhaolusi@gmail.com"),
-        .init(id: NSUUID().uuidString, username: "zhaolusi3", profileImageUrl: "lusi3",fullname:"zhaolusi3" ,bio: "chinese actress",email: "zhaolusi@gmail.com"),
+        .init(id: NSUUID().uuidString, username: "zhaolusi1", profileImageUrl: "lusi2",fullname:"zhaolusi1" ,bio: "chinese actress",email: "zhaolusi1@gmail.com"),
+        .init(id: NSUUID().uuidString, username: "zhaolusi2", profileImageUrl: "lusi1",fullname:"zhaolusi2" ,bio: "chinese actress",email: "zhaolusi2@gmail.com"),
+        .init(id: NSUUID().uuidString, username: "zhaolusi3", profileImageUrl: "lusi3",fullname:"zhaolusi3" ,bio: "chinese actress",email: "zhaolusi3@gmail.com"),
         .init(id: NSUUID().uuidString, username: "maomao", profileImageUrl: "lusi0",fullname:"maomao" ,bio: "cute cat",email: "cutecat@gmail.com"),
         .init(id: NSUUID().uuidString, username: "shimin", profileImageUrl: "lusi6",fullname:"shimin" ,bio: "student",email: "shimin@gmail.com")
     ]

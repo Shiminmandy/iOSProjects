@@ -16,7 +16,6 @@ struct SearchView: View {
     var body: some View {
         NavigationStack {
             ScrollView{
-                Text("tttttttttttttttttttttt")
                 LazyVStack(spacing:12){
                     // 在循环中为每一个用户提供一个点击域导向其他页面
                     ForEach(viewModel.users){ user in

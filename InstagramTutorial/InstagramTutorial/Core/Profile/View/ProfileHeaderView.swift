@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileHeaderView: View {
+    @State private var showEditProfile = false
     
     let user: User
     var body: some View {
@@ -57,20 +58,30 @@ struct ProfileHeaderView: View {
                 
                 // action button
                 Button{
-                    
+                    if user.isCurrentUser {
+                        showEditProfile.toggle()
+                    } else{
+                        print("show follow")
+                    }
                 }label: {
-                    Text("Edit Profile")
+                    //Text("Edit Profile")
+                    // 根据当前登录用户决定
+                    Text(user.isCurrentUser ? "Edit Profile" : "Follow")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .frame(width: 360, height: 32)
-                        .foregroundStyle(.black)
+                        .background(user.isCurrentUser ? .white : Color(.systemBlue))
+                        .foregroundStyle(user.isCurrentUser ? .black : .white)
                         .overlay{
-                            RoundedRectangle(cornerRadius: 6)
+                            RoundedRectangle(cornerRadius: 9)
                                 .stroke(Color.gray,lineWidth: 1 )
                         }
                 }
                 Divider()
             }
+            .fullScreenCover(isPresented: $showEditProfile, content: {
+                EditProfileView(user: user)
+            })
         }
     }
 }
