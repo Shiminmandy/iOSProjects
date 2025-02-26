@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 struct Post: Identifiable, Hashable,Codable{
     let id: String
@@ -13,7 +14,7 @@ struct Post: Identifiable, Hashable,Codable{
     let caption: String
     let likes: Int
     let imageUrl: String
-    let timestamp: Date
+    let timestamp: Timestamp
     let user: User?  //
     
 }
@@ -25,56 +26,56 @@ extension Post{
               caption: "This is some test caption for now",
               likes: 19,
               imageUrl: "lusi10",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[3]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 129,
               imageUrl: "lusi1",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[1]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 129,
               imageUrl: "lusi7",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[2]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 100,
               imageUrl: "lusi9",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[3]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 100,
               imageUrl: "lusi0",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[3]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 78,
               imageUrl: "lusi8",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[4]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 67,
               imageUrl: "lusi12",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[4]),
         .init(id: NSUUID().uuidString,
               ownerUid: NSUUID().uuidString,
               caption: "This is some test caption for now",
               likes: 67,
               imageUrl: "lusi3",
-              timestamp: Date(),
+              timestamp: Timestamp(),
               user: User.MOCK_USERS[0])
 
     ]

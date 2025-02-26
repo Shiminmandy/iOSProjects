@@ -16,6 +16,7 @@ struct EditProfileView: View {
 //    @State private var bio = ""
     @StateObject var viewModel: EditProfileViewModel
     
+    //
     init(user: User){
         self._viewModel = StateObject(wrappedValue: EditProfileViewModel(user: user))
     }
@@ -41,7 +42,9 @@ struct EditProfileView: View {
                     Button{
                         Task{
                             try await viewModel.uploadUserData()
+                            dismiss()
                         }
+                        
                     }label: {
                         Text("Done")
                             .font(.subheadline)
@@ -64,12 +67,7 @@ struct EditProfileView: View {
                             .clipShape(Circle())
                             .frame(width: 80,height: 80)
                     }else {
-                        Image(systemName: "person")
-                            .resizable()
-                            .background(.gray)
-                            .foregroundStyle(.white)
-                            .clipShape(Circle())
-                            .frame(width: 80,height: 80)
+                        CircularProfileImageVIew(user: viewModel.user,size: .large)
                         
                     }
                         Text("Edit profile picture")
@@ -84,7 +82,7 @@ struct EditProfileView: View {
             
             VStack{
                 EditProfileRowView(title: "Name", placeholder: "Enter your name..", text: $viewModel.fullname)
-                EditProfileRowView(title: "Name", placeholder: "Enter your name..", text: $viewModel.bio)
+                EditProfileRowView(title: "Bio", placeholder: "Enter your bio..", text: $viewModel.bio)
             }
         }
         Spacer()
@@ -100,7 +98,7 @@ struct EditProfileRowView: View{
     var body: some View{
         
         HStack{
-            Text("title")
+            Text(title)
                 .padding(.leading,8)
                 .frame(width: 100, alignment: .leading)
             

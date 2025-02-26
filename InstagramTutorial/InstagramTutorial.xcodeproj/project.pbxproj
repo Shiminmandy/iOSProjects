@@ -10,15 +10,29 @@
 		4BD7BA582D5BE0A800163408 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4BD7BA572D5BE0A800163408 /* FirebaseAuth */; };
 		4BD7BA5A2D5BE0A800163408 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4BD7BA592D5BE0A800163408 /* FirebaseFirestore */; };
 		4BD7BA5C2D5BE0A800163408 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 4BD7BA5B2D5BE0A800163408 /* FirebaseStorage */; };
+		4BD7BACB2D65142900163408 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4BD7BACA2D65142900163408 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4BD7B9FF2D45DB5500163408 /* InstagramTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4BD7BACD2D651E0800163408 /* Exceptions for "InstagramTutorial" folder in "InstagramTutorial" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4BD7B9FE2D45DB5500163408 /* InstagramTutorial */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4BD7BA012D45DB5500163408 /* InstagramTutorial */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4BD7BACD2D651E0800163408 /* Exceptions for "InstagramTutorial" folder in "InstagramTutorial" target */,
+			);
 			path = InstagramTutorial;
 			sourceTree = "<group>";
 		};
@@ -29,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BD7BACB2D65142900163408 /* Kingfisher in Frameworks */,
 				4BD7BA582D5BE0A800163408 /* FirebaseAuth in Frameworks */,
 				4BD7BA5A2D5BE0A800163408 /* FirebaseFirestore in Frameworks */,
 				4BD7BA5C2D5BE0A800163408 /* FirebaseStorage in Frameworks */,
@@ -77,6 +92,7 @@
 				4BD7BA572D5BE0A800163408 /* FirebaseAuth */,
 				4BD7BA592D5BE0A800163408 /* FirebaseFirestore */,
 				4BD7BA5B2D5BE0A800163408 /* FirebaseStorage */,
+				4BD7BACA2D65142900163408 /* Kingfisher */,
 			);
 			productName = InstagramTutorial;
 			productReference = 4BD7B9FF2D45DB5500163408 /* InstagramTutorial.app */;
@@ -108,6 +124,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				4BD7BA562D5BE0A800163408 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				4BD7BAC92D65142900163408 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4BD7BA002D45DB5500163408 /* Products */;
@@ -269,6 +286,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"InstagramTutorial/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InstagramTutorial/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "need access photo library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -297,6 +318,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"InstagramTutorial/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InstagramTutorial/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "need access photo library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -347,6 +372,14 @@
 				minimumVersion = 11.8.1;
 			};
 		};
+		4BD7BAC92D65142900163408 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -364,6 +397,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4BD7BA562D5BE0A800163408 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		4BD7BACA2D65142900163408 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BD7BAC92D65142900163408 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
