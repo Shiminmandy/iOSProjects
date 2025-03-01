@@ -17,13 +17,10 @@ class FeedViewModel: ObservableObject{
         Task{ try await fetchPosts()}
     }
     
+    @MainActor
     func fetchPosts() async throws{
-        let snapshot = try await Firestore.firestore().collection("posts").getDocuments()
-        self.posts = try snapshot.documents.compactMap({ document in
-            let posts = try document.data(as: Post.self)
-            return posts
-        })
+        self.posts = try await PostService.fetchFeedPosts()
         
-        //self.post = try snapshot.documents.compactMap({try $0.data(as: Post.self)})
+        
     }
 }
