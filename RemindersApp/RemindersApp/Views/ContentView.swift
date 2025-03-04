@@ -19,7 +19,7 @@ struct ContentView: View {
                 
                 MyListView(myLists: myListResults)
                 
-                Spacer()
+                //Spacer()
                 
                 Button{
                     isPresented = true

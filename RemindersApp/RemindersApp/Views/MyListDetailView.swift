@@ -13,14 +13,24 @@ struct MyListDetailView: View {
     @State private var openAddReminder: Bool = false
     @State private var title: String = ""
     
+    @FetchRequest(sortDescriptors: [])
+    private var reminderResults: FetchedResults<Reminder>
+    
     private var isFormValid: Bool {
         !title.isEmptyOrWithWhitespace
     }
+    
+    init(myList: MyList){
+        self.myList = myList
+        _reminderResults = FetchRequest(fetchRequest: Reminder.fetchRequest())
+    }
+    
     var body: some View {
         
         VStack{
             
             // Display List of Reminders
+            
             
             HStack{
                 Image(systemName: "plus.circle.fill")
@@ -36,6 +46,11 @@ struct MyListDetailView: View {
             Button("Done"){
                 if isFormValid{
                     // Save Reminder to MyList
+                    do{
+                        try ReminderService.saveReminderToMyList(myList: myList, reminderTitle: title)
+                    }catch{
+                        print(error)
+                    }
                 }
             }
         }
