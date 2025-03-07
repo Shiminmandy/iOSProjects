@@ -22,7 +22,8 @@ struct MyListDetailView: View {
     
     init(myList: MyList){
         self.myList = myList
-        _reminderResults = FetchRequest(fetchRequest: Reminder.fetchRequest())
+        // allows it dynamically fetch remider results based on MyList
+        _reminderResults = FetchRequest(fetchRequest: ReminderService.getRemindersByList(myList: myList))
     }
     
     var body: some View {
@@ -30,7 +31,7 @@ struct MyListDetailView: View {
         VStack{
             
             // Display List of Reminders
-            
+            ReminderListView(reminders: reminderResults)
             
             HStack{
                 Image(systemName: "plus.circle.fill")
@@ -48,6 +49,7 @@ struct MyListDetailView: View {
                     // Save Reminder to MyList
                     do{
                         try ReminderService.saveReminderToMyList(myList: myList, reminderTitle: title)
+                        title = ""
                     }catch{
                         print(error)
                     }
