@@ -27,6 +27,20 @@ class ReminderService{
         try save()
     }
     
+    static func updateReminder(reminder: Reminder, editConfig: ReminderEditConfig) throws -> Bool{
+        
+        //可不写的一步
+        let reminderToUpdate = reminder
+        
+        reminderToUpdate.isCompleted = editConfig.isCompleted
+        reminderToUpdate.title = editConfig.title
+        reminderToUpdate.notes = editConfig.notes
+        reminderToUpdate.reminderDate = editConfig.hasDate ? editConfig.reminderDate: nil
+        
+        try save()
+        return true
+    }
+    
     static func saveReminderToMyList(myList: MyList, reminderTitle: String) throws{
         let reminder = Reminder(context: viewContext)
         reminder.title = reminderTitle
@@ -39,6 +53,7 @@ class ReminderService{
         let request = Reminder.fetchRequest()
         request.sortDescriptors = []
         request.predicate = NSPredicate(format: "list = %@ AND isCompleted = false", myList)
+        // if the isCompleted changed from false to true, the reminder list view will gone
         return request
     }
 }
