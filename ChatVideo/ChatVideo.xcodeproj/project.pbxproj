@@ -23,9 +23,22 @@
 		E45EB11A00557435C2ADBD73 /* Pods_ChatVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4BDBAD552D808D71007967E4 /* Exceptions for "ChatVideo" folder in "ChatVideo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4BDBAD222D7F858F007967E4 /* ChatVideo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4BDBAD252D7F858F007967E4 /* ChatVideo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4BDBAD552D808D71007967E4 /* Exceptions for "ChatVideo" folder in "ChatVideo" target */,
+			);
 			path = ChatVideo;
 			sourceTree = "<group>";
 		};
@@ -360,9 +373,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatVideo/Preview Content\"";
+				DEVELOPMENT_TEAM = MK5XNRDZH5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "chatvideo requires camera access for video talks";
+				INFOPLIST_FILE = ChatVideo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "chatvideo requires microphone access for audio and video talks";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -391,9 +406,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatVideo/Preview Content\"";
+				DEVELOPMENT_TEAM = MK5XNRDZH5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "chatvideo requires camera access for video talks";
+				INFOPLIST_FILE = ChatVideo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "chatvideo requires microphone access for audio and video talks";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

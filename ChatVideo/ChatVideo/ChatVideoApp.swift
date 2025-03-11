@@ -13,8 +13,9 @@ struct ChatVideoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ViewControllerWrapper()
-                        .edgesIgnoringSafeArea(.all)
+//            ViewControllerWrapper()
+//                        .edgesIgnoringSafeArea(.all)
+            ContentView()
         }
     }
 }
