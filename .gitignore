@@ -1,1 +1,64 @@
 .DS_Store
+
+# 📌 Xcode 项目临时文件（不上传）
+.DS_Store
+*.xcuserstate
+*.xcworkspace/
+*.xcscmblueprint
+*.xcuserdata/
+
+# 📌 Xcode 构建产物（不上传）
+DerivedData/
+build/
+*.ipa
+*.xcarchive/
+
+# 📌 Swift Package Manager 相关（如果你使用了 SPM）
+.swiftpm/
+Package.resolved
+
+# 📌 CocoaPods 相关（如果使用了 Pods，但不忽略 Podfile）
+Pods/
+!Podfile
+!Podfile.lock
+
+# 📌 Carthage 相关（如果你使用了 Carthage）
+Carthage/
+Carthage/Checkouts/
+Carthage/Build/
+
+# 📌 依赖缓存（如果使用了 Node.js / npm / Yarn）
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# 📌 Fastlane（如果使用 Fastlane 自动化）
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# 📌 个人用户设置（避免 Git 冲突）
+*.swp
+*.swo
+*.swn
+*.bak
+*.mode1v3
+*.pbxuser
+*.perspectivev3
+userdata/
+
+# 📌 禁止上传大文件（超过 100MB 的文件）
+*.zip
+*.tar.gz
+*.dmg
+*.iso
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wav
+*.flac
+*.ttf
+*.otf
+*.bak

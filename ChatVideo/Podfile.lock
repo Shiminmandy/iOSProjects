@@ -1,0 +1,52 @@
+PODS:
+  - RTCRoomEngine/Professional (2.9.2):
+    - TXIMSDK_Plus_iOS_XCFramework (>= 8.1.6116)
+    - TXLiteAVSDK_Professional (>= 12.2.16956)
+  - SDWebImage (5.21.0):
+    - SDWebImage/Core (= 5.21.0)
+  - SDWebImage/Core (5.21.0)
+  - SnapKit (5.7.1)
+  - TUICallKit_Swift/Professional (2.9.0.1235):
+    - RTCRoomEngine/Professional (~> 2.9.1)
+    - SnapKit
+    - TUICore (>= 8.4.6667)
+    - TXLiteAVSDK_Professional
+  - TUICore (8.4.6667):
+    - SDWebImage
+    - TUICore/ImSDK_Plus (= 8.4.6667)
+  - TUICore/Base (8.4.6667):
+    - SDWebImage
+  - TUICore/ImSDK_Plus (8.4.6667):
+    - SDWebImage
+    - TUICore/Base
+    - TXIMSDK_Plus_iOS_XCFramework
+  - TXIMSDK_Plus_iOS_XCFramework (8.4.6675)
+  - TXLiteAVSDK_Professional (12.3.16995):
+    - TXLiteAVSDK_Professional/Professional (= 12.3.16995)
+  - TXLiteAVSDK_Professional/Professional (12.3.16995)
+
+DEPENDENCIES:
+  - TUICallKit_Swift/Professional
+
+SPEC REPOS:
+  trunk:
+    - RTCRoomEngine
+    - SDWebImage
+    - SnapKit
+    - TUICallKit_Swift
+    - TUICore
+    - TXIMSDK_Plus_iOS_XCFramework
+    - TXLiteAVSDK_Professional
+
+SPEC CHECKSUMS:
+  RTCRoomEngine: 41541c6523620cc6977c74e9812f5f319317f759
+  SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
+  SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
+  TUICallKit_Swift: bbcde3b1d9e32afeed40074a84f43f5886b01b6c
+  TUICore: 798f1db24c5e3ada1db90431904a3f63ff612061
+  TXIMSDK_Plus_iOS_XCFramework: ce4435718ef7d893ed5c0c9cb7ddb81253db9f4c
+  TXLiteAVSDK_Professional: 6e8fa18eeb0e52e6bbbcd97bab9ec9fbdc828df3
+
+PODFILE CHECKSUM: f97b7e2bbb304f12c110230621e784a1d48f1e6d
+
+COCOAPODS: 1.16.2
