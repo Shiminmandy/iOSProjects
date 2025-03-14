@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReminderListView: View {
     
+    @State private var selectedReminder: Reminder?
     //we dont get from core data
     let reminders: FetchedResults<Reminder>
     
@@ -24,15 +25,20 @@ struct ReminderListView: View {
         }
     }
     
+    private func isReminderSelected(_ reminder: Reminder) -> Bool {
+        // objectID from CoreData
+        selectedReminder?.objectID == reminder.objectID
+    }
+    
     var body: some View {
         List(reminders) {reminder in
-            ReminderCellView(reminder: reminder, onEvent: {event in
+            ReminderCellView(reminder: reminder,isSelected: false, onEvent: {event in
                 switch event{
                 case .onCheckChange(let reminder, let isCompleted):
                     reminderCheckedChanged(reminder: reminder, isCompleted: isCompleted)
                     
                 case .onSelect(let reminder):
-                    print("onSelect")
+                    selectedReminder = reminder
                     
                 case .onInfo:
                     print("onInfo")
