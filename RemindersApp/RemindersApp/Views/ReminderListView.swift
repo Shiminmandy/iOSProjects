@@ -43,21 +43,26 @@ struct ReminderListView: View {
     }
     
     var body: some View {
-        List(reminders) {reminder in
-            ReminderCellView(reminder: reminder,isSelected: isReminderSelected(reminder), onEvent: {event in
-                switch event{
-                case .onCheckChange(let reminder, let isCompleted):
-                    reminderCheckedChanged(reminder: reminder, isCompleted: isCompleted)
-                    
-                case .onSelect(let reminder):
-                    selectedReminder = reminder
-                    
-                case .onInfo:
-                    showReminderDetail = true
-                }
-            })
-        }.sheet(isPresented: $showReminderDetail) {
-            ReminderDetailView(reminder: Binding($selectedReminder)!)
+        VStack{
+            List{
+                ForEach(reminders) {reminder in
+                    ReminderCellView(reminder: reminder,isSelected: isReminderSelected(reminder), onEvent: {event in
+                        switch event{
+                        case .onCheckChange(let reminder, let isCompleted):
+                            reminderCheckedChanged(reminder: reminder, isCompleted: isCompleted)
+                            
+                        case .onSelect(let reminder):
+                            selectedReminder = reminder
+                            
+                        case .onInfo:
+                            showReminderDetail = true
+                        }
+                    })
+                }.onDelete(perform: deleterReminder)
+                //        .sheet(isPresented: $showReminderDetail) {
+                //            ReminderDetailView(reminder: Binding($selectedReminder)!)
+                //        }
+            }
         }
     }
 }
