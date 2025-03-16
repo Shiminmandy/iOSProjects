@@ -9,6 +9,8 @@ import Foundation
 import CoreData
 import UIKit
 
+
+// provide utility functions to interact with core data, operating creation, deletion, updating logic of reminders and lists
 class ReminderService{
     
     static var viewContext: NSManagedObjectContext{
@@ -48,6 +50,12 @@ class ReminderService{
         try save()
     }
     
+    static func deleteReminder(_ reminder: Reminder) throws {
+        
+        viewContext.delete(reminder)
+        try save()
+    }
+    
     static func getRemindersByList(myList: MyList) -> NSFetchRequest<Reminder>{
         
         let request = Reminder.fetchRequest()
@@ -56,4 +64,5 @@ class ReminderService{
         // if the isCompleted changed from false to true, the reminder list view will gone
         return request
     }
+    
 }

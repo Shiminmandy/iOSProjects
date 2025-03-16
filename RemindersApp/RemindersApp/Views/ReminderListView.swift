@@ -11,7 +11,7 @@ struct ReminderListView: View {
     
     @State private var selectedReminder: Reminder?
     @State private var showReminderDetail: Bool = false
-    //we dont get from core data
+    //we dont get reminders directly from core data here
     let reminders: FetchedResults<Reminder>
     
     // 点击后，状态取反
@@ -29,6 +29,17 @@ struct ReminderListView: View {
     private func isReminderSelected(_ reminder: Reminder) -> Bool {
         // objectID from CoreData
         selectedReminder?.objectID == reminder.objectID
+    }
+    
+    private func deleterReminder(_ indexSet: IndexSet){
+        indexSet.forEach { index in
+            let reminder = reminders[index]
+            do{
+                try ReminderService.deleteReminder(reminder)
+            } catch{
+                print(error)
+            }
+        }
     }
     
     var body: some View {
@@ -51,6 +62,19 @@ struct ReminderListView: View {
     }
 }
 
-//#Preview {
-//    ReminderListView(reminders: <#T##FetchedResults<Reminder>#>)
-//}
+// help to present preview
+struct ReminderListViewContainer: View {
+    
+    @FetchRequest(sortDescriptors: [])
+    private var reminderResults: FetchedResults<Reminder>
+    
+    var body: some View {
+        ReminderListView(reminders: reminderResults)
+    }
+}
+
+#Preview {
+    
+    ReminderListViewContainer()
+        .environment(\.managedObjectContext, CoreDataProvider.shared.persistentContainer.viewContext)
+}
