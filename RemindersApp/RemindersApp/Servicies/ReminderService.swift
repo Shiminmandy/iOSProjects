@@ -9,7 +9,14 @@ import Foundation
 import CoreData
 import UIKit
 
-
+enum ReminderStatType{
+    
+    case today
+    case all
+    case scheduled
+    case completed
+    
+}
 // provide utility functions to interact with core data, operating creation, deletion, updating logic of reminders and lists
 class ReminderService{
     
@@ -60,6 +67,26 @@ class ReminderService{
         let request = Reminder.fetchRequest()
         request.sortDescriptors = []  // sort order = []
         request.predicate  = NSPredicate(format: "title CONTAINS[cd] %@", searchTerm) // filter reminders
+        return request
+    }
+    
+    static func remindersByStatType(statType: ReminderStatType) -> NSFetchRequest<Reminder>{
+        
+        let request = Reminder.fetchRequest()
+        request.sortDescriptors = []
+        
+        switch statType{
+        case .all:
+            request.predicate = NSPredicate(format: "isCompleted = false")
+        case .today:
+            let today = Date()
+            let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)
+            request.predicate = NSPredicate(format: "(reminderDate BETWEEN {%@, %@}) OR (reminderTime BETWEEN {%@, %@})", today  as NSDate, tomorrow! as NSDate,today  as NSDate, tomorrow! as NSDate)
+        case .scheduled:
+            request.predicate = NSPredicate(format: "(reminderDate != nil OR reminderTime != nil) AND isCompleted = false")
+        case .completed:
+            request.predicate = NSPredicate(format: "isCompleted = true")
+        }
         return request
     }
     

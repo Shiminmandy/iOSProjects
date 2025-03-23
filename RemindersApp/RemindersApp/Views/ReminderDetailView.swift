@@ -82,7 +82,15 @@ struct ReminderDetailView: View{
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done"){
                             do{
-                                let _ = try ReminderService.updateReminder(reminder: reminder, editConfig: editConfig)
+                                let updated = try ReminderService.updateReminder(reminder: reminder, editConfig: editConfig)
+                                
+                                if updated{
+                                    // check if we should even schedule a notification
+                                    if reminder.reminderDate != nil || reminder.reminderTime != nil {
+                                        let userData = UserDate(title: reminder.title, body: reminder.notes, date: reminder.reminderDate, time: reminder.reminderTime)
+                                        NotificationManager.scheduleNotification(userDate: userData)
+                                    }
+                                }
                             }catch{
                                 print(error)
                             }
