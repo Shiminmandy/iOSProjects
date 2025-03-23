@@ -18,10 +18,30 @@ struct ContentView: View {
     @State private var searching: Bool = false
     @State private var isPresented: Bool = false
     
+    private var reminderStatsBuilder = ReminderStatsBuilder()
+    @State private var reminderStatsValues = ReminderStatsValues()
+    
     var body: some View {
         NavigationStack{
             VStack {
                 ScrollView{
+                    
+                    HStack{
+                        ReminderStatsView(icon: "calendar", title: "Today",count: reminderStatsValues.todayCount)
+                        ReminderStatsView(icon: "tray.circle.fill", title: "All",count: reminderStatsValues.allCount)
+                    }
+                    
+                    HStack{
+                        ReminderStatsView(icon: "calendar.circle.fill", title: "Schedule",count: reminderStatsValues.scheduledCount)
+                        ReminderStatsView(icon: "checkmark.circle.fill", title: "Completed",count: reminderStatsValues.completedCount)
+                    }
+                    
+                    Text("My Lists")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.largeTitle)
+                        .bold()
+                        .padding()
+                    
                     MyListView(myLists: myListResults)
                     
                     //Spacer()
@@ -55,6 +75,9 @@ struct ContentView: View {
                         }
                     }
                 }
+            }
+            .onAppear{
+                reminderStatsValues = reminderStatsBuilder.build(myListResults: myListResults)
             }
             .padding()
         }.searchable(text: $search)
