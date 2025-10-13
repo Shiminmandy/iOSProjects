@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lato } from "next/font/google";
-import "./globals.css";
+import "../styles/globals.css";
 
 const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
