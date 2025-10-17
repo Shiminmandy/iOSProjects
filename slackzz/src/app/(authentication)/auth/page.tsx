@@ -8,6 +8,7 @@ import { FaRegEnvelope } from "react-icons/fa";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Provider } from "@supabase/supabase-js";
 import {
   FormField,
   FormItem,
@@ -17,8 +18,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
 import { MdOutlineAutoAwesome } from "react-icons/md";
+import { useState } from "react";
+import { supabaseBrowserClient } from "@/supabase/supabaseClient";
 
 const AuthPage = () => {
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
   const formSchema = z.object({
     email: z.string().email().min(2, { message: "Email must be 2 characters" }),
   });
@@ -29,6 +34,22 @@ const AuthPage = () => {
       email: "",
     },
   });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    console.log("test");
+  }
+
+  async function socialAuth(provider: Provider) {
+    setIsAuthenticating(true);
+    await supabaseBrowserClient.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `http://example.com/auth/callback`,
+      },
+    });
+    setIsAuthenticating(false);
+  }
 
   return (
     <div className="min-h-screen p-5 grid text-center place-content-center bg-white">
@@ -51,7 +72,12 @@ const AuthPage = () => {
         />
 
         <div className="flex flex-col space-y-4">
-          <Button variant="outline" className="py-6 border-2 flex space-x-3">
+          <Button
+            variant="outline"
+            className="py-6 border-2 flex space-x-3"
+            disabled={isAuthenticating}
+            onClick={() => socialAuth("google")}
+          >
             <FcGoogle size={30} />
             <Typography
               variant="p"
@@ -59,7 +85,11 @@ const AuthPage = () => {
               className="text-xl"
             />
           </Button>
-          <Button variant="outline" className="py-6 border-2 flex space-x-3">
+          <Button
+            variant="outline"
+            className="py-6 border-2 flex space-x-3"
+            disabled={isAuthenticating}
+          >
             <RxGithubLogo size={30} />
             <Typography
               variant="p"
@@ -69,17 +99,17 @@ const AuthPage = () => {
           </Button>
         </div>
 
-        <div >
+        <div>
           <div className="flex items-center my-6">
             <div className="mr-[10px] flex-1 border-t bg-neutral-300" />
             <Typography text="OR" variant="p" />
             <div className="ml-[10px] flex-1 border-t bg-neutral-300" />
           </div>
 
-          {/* FORM */}
+          {/* FORM   fieldset的作用是语义化分组 */}
           <Form {...form}>
-            <form>
-              <fieldset>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <fieldset disabled={isAuthenticating}>
                 <FormField
                   control={form.control}
                   name="email"
@@ -97,6 +127,7 @@ const AuthPage = () => {
                   variant="secondary"
                   className="bg-primary-dark hover:bg-primary-dark/90 w-full my-5 text-white"
                   type="submit"
+                  disabled={isAuthenticating}
                 >
                   <Typography text="Sign in with Email" variant="p" />
                 </Button>
