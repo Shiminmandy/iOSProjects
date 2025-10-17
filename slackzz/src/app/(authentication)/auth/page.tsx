@@ -20,6 +20,7 @@ import { Form } from "@/components/ui/form";
 import { MdOutlineAutoAwesome } from "react-icons/md";
 import { useState } from "react";
 import { supabaseBrowserClient } from "@/supabase/supabaseClient";
+import { registerWithEmail } from "@/actions/register-with-email";
 
 const AuthPage = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -35,9 +36,15 @@ const AuthPage = () => {
     },
   });
 
+  // zod已经约束email的格式
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    console.log("test");
+    setIsAuthenticating(true);
+    const {data, error} = await registerWithEmail(values);
+    setIsAuthenticating(false);
+    if (error) {
+      console.error(error);
+      return;
+    }
   }
 
   async function socialAuth(provider: Provider) {
