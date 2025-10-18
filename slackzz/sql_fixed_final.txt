@@ -1,0 +1,74 @@
+-- 完全修复后的 SQL 代码
+
+-- 1. 删除现有的触发器和函数（如果存在）
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+DROP FUNCTION IF EXISTS public.handle_new_user();
+
+-- 2. 创建 users 表（如果不存在）
+CREATE TABLE IF NOT EXISTS users (
+  id uuid PRIMARY KEY REFERENCES auth.users (id) NOT NULL,
+  email text UNIQUE NOT NULL,
+  name text,
+  type text DEFAULT 'user' CHECK (type IN ('user', 'admin', 'regulator')),
+  avatar_url text NOT NULL,
+  create_at timestamp DEFAULT current_timestamp,
+  is_away boolean DEFAULT false NOT NULL,
+  phone text,
+  workplace text[],
+  channels text[]
+);
+
+-- 3. 启用行级安全
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+
+-- 4. 创建安全策略（如果不存在）
+DROP POLICY IF EXISTS "Can view own user data." ON users;
+DROP POLICY IF EXISTS "Can update own user data." ON users;
+
+CREATE POLICY "Can view own user data." 
+ON users FOR SELECT 
+USING (auth.uid() = id);
+
+CREATE POLICY "Can update own user data." 
+ON users FOR UPDATE 
+USING (auth.uid() = id);
+
+-- 5. 创建修复后的处理新用户函数
+CREATE OR REPLACE FUNCTION public.handle_new_user() 
+RETURNS trigger AS $$
+DECLARE
+  default_avatar_url text := 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
+  user_avatar_url text;
+  user_name text;
+BEGIN
+  -- 获取用户头像，如果没有则使用默认头像
+  user_avatar_url := COALESCE(
+    new.raw_user_meta_data->>'avatar_url',
+    new.raw_app_meta_data->>'avatar_url',
+    default_avatar_url
+  );
+  
+  -- 获取用户名称
+  user_name := COALESCE(
+    new.raw_user_meta_data->>'full_name',
+    new.raw_user_meta_data->>'name',
+    split_part(new.email, '@', 1)
+  );
+  
+  -- 插入用户数据到 public.users 表
+  INSERT INTO public.users (id, email, name, type, avatar_url)
+  VALUES (new.id, new.email, user_name, 'user', user_avatar_url)
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    name = EXCLUDED.name,
+    avatar_url = EXCLUDED.avatar_url;
+  
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- 6. 创建触发器
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE PROCEDURE public.handle_new_user();
