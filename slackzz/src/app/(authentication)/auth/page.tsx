@@ -52,7 +52,7 @@ const AuthPage = () => {
     await supabaseBrowserClient.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `http://example.com/auth/callback`,
+        redirectTo: `${process.env.NEXT_PUBLIC_CURRENT_ORIGIN}/main`,
       },
     });
     setIsAuthenticating(false);
