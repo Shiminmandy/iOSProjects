@@ -21,9 +21,30 @@ import { MdOutlineAutoAwesome } from "react-icons/md";
 import { useState } from "react";
 import { supabaseBrowserClient } from "@/supabase/supabaseClient";
 import { registerWithEmail } from "@/actions/register-with-email";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const AuthPage = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [isMounting, setIsMounting] = useState(false);
+
+  const router = useRouter();
+
+
+  useEffect(() => {
+    const getCurrUser = async () => {
+      const {
+        data: { session },
+      } = await supabaseBrowserClient.auth.getSession();
+
+      if (session){
+        router.push("/main");
+      }
+    };
+
+    getCurrUser();
+    setIsMounting(true);
+  }, []);
 
   const formSchema = z.object({
     email: z.string().email().min(2, { message: "Email must be 2 characters" }),
@@ -39,7 +60,7 @@ const AuthPage = () => {
   // zod已经约束email的格式
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsAuthenticating(true);
-    const {data, error} = await registerWithEmail(values);
+    const { data, error } = await registerWithEmail(values);
     setIsAuthenticating(false);
     if (error) {
       console.error(error);
