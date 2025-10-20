@@ -1,0 +1,13 @@
+// 1) get user data
+// 2) if no user data, redirect to auth
+// 3) find any workspace this user belongs
+// 4) if no workspace, redirect to create workspace
+// 5) redirect to the first workspace this user belongs 
+
+
+// supabase login如果链接到错误的账号，那么可以直接bunx supabse login token xxxxxx进行连接
+// 生成types文件是把数据库的真实结构映射成typescript类型，方便在一开始编译时就发生问题，带来end to end类型安全
+// 什么时候必须重新生成？
+// 你新增/修改/删除了表、列、视图、函数、枚举等；
+// 你拉取了新的迁移并 db reset/部署到远端后；
+// 升级到新版本的扩展/改变了 schema 依赖
