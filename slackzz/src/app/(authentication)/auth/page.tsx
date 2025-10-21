@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 
 const AuthPage = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [isMounting, setIsMounting] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const router = useRouter();
 
@@ -34,17 +34,17 @@ const AuthPage = () => {
   useEffect(() => {
     const getCurrUser = async () => {
       const {
-        data: { session },
+        data: { session},
       } = await supabaseBrowserClient.auth.getSession();
 
       if (session){
-        router.push("/");
+        return router.push("/");
       }
     };
 
     getCurrUser();
-    setIsMounting(true);
-  }, []);
+    setIsMounted(true);
+  }, [router]);
 
   const formSchema = z.object({
     email: z.string().email().min(2, { message: "Email must be 2 characters" }),
@@ -73,7 +73,7 @@ const AuthPage = () => {
     await supabaseBrowserClient.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_CURRENT_ORIGIN}/main`,
+        redirectTo: `${process.env.NEXT_PUBLIC_CURRENT_ORIGIN}/auth/callback`,
       },
     });
     setIsAuthenticating(false);
