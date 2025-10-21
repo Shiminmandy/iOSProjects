@@ -38,7 +38,7 @@ const AuthPage = () => {
       } = await supabaseBrowserClient.auth.getSession();
 
       if (session){
-        router.push("/main");
+        router.push("/");
       }
     };
 

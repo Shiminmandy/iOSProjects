@@ -1,9 +1,11 @@
 import { supabaseServerClient } from "@/supabase/supabaseServer";
 import { User } from "@/types/app";
 
-const getUserData = async (): Promise<User | null> => {
+// 获取用户数据data，如果用户不存在，则返回null
+export const getUserData = async (): Promise<User | null> => {
     const supabase = await supabaseServerClient();
 
+    // 跳过data属性直接获取user
     const {data : {user},} = await supabase.auth.getUser();
 
     if (!user) {
@@ -11,6 +13,7 @@ const getUserData = async (): Promise<User | null> => {
         return null;
     }
 
+    // 查询users表，获取用户数据data中所有字段
     const {data, error} =  await supabase
       .from('users')
       .select('*')
