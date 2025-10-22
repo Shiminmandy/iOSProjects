@@ -11,7 +11,7 @@ export const getUserData = async (): Promise<User | null> => {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    console.log("NO USER", user);
+    console.log("NO USER DATA FOUND", user);
     return null;
   }
 

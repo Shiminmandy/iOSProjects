@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Typography from "@/components/ui/typography";
 import { useCreateWorkspaceValues } from "@/hooks/create-workspace-values";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const CreateWorkspace = () => {
   const { currStep } = useCreateWorkspaceValues();
@@ -60,9 +62,9 @@ const Step1 = () => {
             onChange={(e) => updateValues({ name: e.target.value })}
             placeholder="Enter your company or team name"
           />
-          
+
           {/* button类型，不会提交表单，不会刷新页面，指执行onClick事件，适合步骤切换，打开弹窗等 */}
-          <Button type="button" disabled={!name}>
+          <Button type="button" className='mt-10' disabled={!name}>
             <Typography text="Next" variant="p" />
           </Button>
         </fieldset>
@@ -72,5 +74,46 @@ const Step1 = () => {
 };
 
 const Step2 = () => {
-  return <></>;
+
+  const { setCurrStep, updateImageUrl, imageUrl, name } = useCreateWorkspaceValues();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+
+
+  return (
+    <>
+      {/* 返回按钮 */}
+      <Button
+        size='sm'
+        className='text-white'
+        variant='link'
+        onClick={() => setCurrStep(1)}>
+        <Typography text="Back" variant='p' />
+      </Button>
+
+      <form>
+        <Typography text='Add workspace avatar' className='my-4' />
+        <Typography text='This image can be changed later in your workspace settings.' className='text-neutral-300' variant='p' />
+
+        <fieldset
+          disabled={isSubmitting}
+          className='mt-6 flex flex-col items-center space-y-9'
+          >
+            <ImageUploader/> 
+
+            <div className='space-x-5'>
+              <Button
+              onClick={() => {
+                updateImageUrl('');
+                handleSubmit();
+              }}
+              >
+                <Typography text='Skip for now' variant='p' />
+              </Button>
+            </div>
+          </fieldset>
+      </form>
+    </>
+  );
 };
