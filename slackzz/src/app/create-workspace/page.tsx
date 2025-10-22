@@ -5,6 +5,8 @@ import Typography from "@/components/ui/typography";
 import { useCreateWorkspaceValues } from "@/hooks/create-workspace-values";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ImageUpload from "@/components/ui/image-upload";
+
 
 const CreateWorkspace = () => {
   const { currStep } = useCreateWorkspaceValues();
@@ -80,6 +82,9 @@ const Step2 = () => {
   const router = useRouter();
 
 
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+  }
 
   return (
     <>
@@ -88,7 +93,7 @@ const Step2 = () => {
         size='sm'
         className='text-white'
         variant='link'
-        onClick={() => setCurrStep(1)}>
+        onClick={() => setCurrStep(1)}> //箭头函数作为函数引用
         <Typography text="Back" variant='p' />
       </Button>
 
@@ -99,20 +104,31 @@ const Step2 = () => {
         <fieldset
           disabled={isSubmitting}
           className='mt-6 flex flex-col items-center space-y-9'
-          >
-            <ImageUploader/> 
+        >
+          <ImageUpload />
 
-            <div className='space-x-5'>
-              <Button
+          <div className='space-x-5'>
+            <Button
               onClick={() => {
                 updateImageUrl('');
                 handleSubmit();
               }}
-              >
-                <Typography text='Skip for now' variant='p' />
+            >
+              <Typography text='Skip for now' variant='p' />
+            </Button>
+
+            {imageUrl ? (
+
+              <Button type='submit' onClick={handleSubmit} size='sm' variant='destructive'>
+                <Typography text='Submit' variant='p' />
               </Button>
-            </div>
-          </fieldset>
+            ) : (
+              <Button size='sm' className='text-white bg-gray-500'>
+                <Typography text='Select an Image' variant='p' />
+              </Button>
+            )}
+          </div>
+        </fieldset>
       </form>
     </>
   );
