@@ -31,11 +31,7 @@ const CreateWorkspace = () => {
           variant="p"
           className="text-neutral-400"
         />
-        <Typography
-          text="This will be the name of your Slackzz workspace - choose something that your team will recognize"
-          className="text-neutral-300"
-          variant="p"
-        />
+
 
         {stepInView}
       </div>
@@ -55,6 +51,12 @@ const Step1 = () => {
         className="my-4"
       />
 
+      <Typography
+        text="This will be the name of your Slackzz workspace - choose something that your team will recognize"
+        className="text-neutral-300"
+        variant="p"
+      />
+
       <form className="mt-6">
         <fieldset>
           <Input
@@ -66,7 +68,7 @@ const Step1 = () => {
           />
 
           {/* button类型，不会提交表单，不会刷新页面，指执行onClick事件，适合步骤切换，打开弹窗等 */}
-          <Button type="button" className='mt-10' disabled={!name}>
+          <Button type="button" className='mt-10' disabled={!name} onClick={() => setCurrStep(2)}>
             <Typography text="Next" variant="p" />
           </Button>
         </fieldset>
@@ -84,6 +86,7 @@ const Step2 = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    // Workspace Logic
   }
 
   return (
@@ -93,7 +96,7 @@ const Step2 = () => {
         size='sm'
         className='text-white'
         variant='link'
-        onClick={() => setCurrStep(1)}> //箭头函数作为函数引用
+        onClick={() => setCurrStep(1)}> {/* 箭头函数作为函数引用 */}
         <Typography text="Back" variant='p' />
       </Button>
 

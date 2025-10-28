@@ -1,7 +1,7 @@
 import { ImCancelCircle } from "react-icons/im"
 import Image from "next/image"
 import { useCreateWorkspaceValues } from "@/hooks/create-workspace-values"
-
+import { UploadDropzone } from "@/lib/uploadthing"
 
 const ImageUpload = () => {
     const {imageUrl, updateImageUrl} = useCreateWorkspaceValues()
@@ -26,14 +26,14 @@ const ImageUpload = () => {
     }
 
     return (
-        // <UploadDropzone
-        // endpoint='workspaceImage'
-        // onClientUploadComplete={res => {
-        //     updateImageUrl(res?.[0].url);
-        // }}
-        // onUploadError={err => console.log(err)}
-        // />
-        <></>
+        <UploadDropzone
+        endpoint='workspaceImage'
+        onClientUploadComplete={res => {
+            updateImageUrl(res?.[0].url);
+        }}
+        onUploadError={err => console.log(err)}
+        />
+        
     )
 }
 
