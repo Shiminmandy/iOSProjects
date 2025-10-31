@@ -87,6 +87,7 @@ const Step2 = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     // Workspace Logic
+    //
   }
 
   return (
