@@ -6,6 +6,9 @@ import { useCreateWorkspaceValues } from "@/hooks/create-workspace-values";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ImageUpload from "@/components/ui/image-upload";
+import {v4 as uuidv4} from 'uuid';
+import slugify from "slugify";
+import { createWorkspace } from "@/actions/create-workspace";
 
 
 const CreateWorkspace = () => {
@@ -87,7 +90,11 @@ const Step2 = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     // Workspace Logic
-    //
+     const slug = slugify(name,{lower: true, strict: true});
+     const invite_code = uuidv4();
+     // 创建工作区, 传递参数给action函数
+     const error = await createWorkspace({imageUrl, name, slug, invite_code});
+     setIsSubmitting(false);
   }
 
   return (
