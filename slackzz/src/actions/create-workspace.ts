@@ -7,6 +7,7 @@
 import { supabaseServerClient } from "@/supabase/supabaseServer";
 import { getUserData } from "@/actions/get-user-data";
 import { updateUserWorkspace } from "@/actions/update-user-workspace";
+import { addMemberToWorkspace } from "./add-member-to-workspace";
 
 export const createWorkspace = async ({
   imageUrl,
@@ -40,8 +41,9 @@ export const createWorkspace = async ({
     .select("*");
 
   if (error) {
-    return { insertError: error };
+    return {  error };
   }
+
 
   const [updateWorkspaceData, updateWorkspaceError] = await updateUserWorkspace(
     userData.id,
@@ -53,7 +55,11 @@ export const createWorkspace = async ({
   }
 
   // Add user to workspace members
-  const [] = await addMemberToWorkspace();
+  const [addMemberToWorkspaceData, addMemberToWorkspaceError] = await addMemberToWorkspace(userData.id, workspaceRecord[0].id);
+
+  if (addMemberToWorkspaceError) {
+    return {error: addMemberToWorkspaceError};
+  }
 };
 
 // 如果反悔的是对象，通过属性名访问，或者说解构对象，那么使用{}

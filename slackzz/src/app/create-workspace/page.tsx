@@ -95,6 +95,10 @@ const Step2 = () => {
      // 创建工作区, 传递参数给action函数
      const error = await createWorkspace({imageUrl, name, slug, invite_code});
      setIsSubmitting(false);
+
+    if (error) {
+      console.log(error);
+    }
   }
 
   return (
