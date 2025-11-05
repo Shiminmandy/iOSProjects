@@ -9,6 +9,7 @@ import ImageUpload from "@/components/ui/image-upload";
 import {v4 as uuidv4} from 'uuid';
 import slugify from "slugify";
 import { createWorkspace } from "@/actions/create-workspace";
+import { toast } from "sonner";
 
 
 const CreateWorkspace = () => {
@@ -98,7 +99,11 @@ const Step2 = () => {
 
     if (error) {
       console.log(error);
+      return toast.error("Couldn't create workspace. Please try again.")
     }
+
+    toast.success('Workspace created successfully!')
+    router.push('/');
   }
 
   return (
