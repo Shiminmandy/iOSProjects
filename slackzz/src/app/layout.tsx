@@ -35,3 +35,149 @@ export default function RootLayout({
     </html>
   );
 }
+
+/*
+ * ====================================================================
+ * RootLayout 组件详细解释
+ * ====================================================================
+ * 
+ * ## 1. 这是 React 语法吗？
+ * 
+ * 是的，这是 React + Next.js 语法，具体是 JSX（JavaScript XML）。
+ * - React 函数组件：使用 function 定义组件
+ * - JSX 语法：HTML-like 语法，但实际是 JavaScript
+ * - TypeScript：类型注解
+ * - Next.js：特殊的约定文件（layout.tsx）
+ * 
+ * 
+ * ## 2. 为什么要加 Readonly？
+ * 
+ * Readonly<{ children: React.ReactNode }> 的作用：
+ * - 防止在组件内部修改 props
+ * - 确保 props 的不可变性（React 最佳实践）
+ * - 提供类型安全，防止意外修改
+ * 
+ * 示例说明：
+ * - 没有 Readonly：可以修改 props（但不推荐）
+ * - 有 Readonly：TypeScript 会报错，防止修改 props
+ * 
+ * 
+ * ## 3. 这个 default function 是被系统自动调用了吗？
+ * 
+ * 是的！Next.js 会自动调用。
+ * 
+ * Next.js 的约定：
+ * - 文件名 layout.tsx 是特殊约定
+ * - Next.js 自动识别并调用
+ * - 不需要手动导入或调用
+ * 
+ * 调用机制：
+ * 1. 用户访问 URL
+ * 2. Next.js 找到对应的 page.tsx
+ * 3. 将 page.tsx 的默认导出作为 children
+ * 4. 自动调用 RootLayout({ children: <PageComponent /> })
+ * 5. 渲染页面
+ * 
+ * 实际例子：
+ * 当用户访问 /create-workspace 时，Next.js 自动执行：
+ * <RootLayout>
+ *   <CreateWorkspacePage />  // 自动作为 children 传入
+ * </RootLayout>
+ * 
+ * 你不需要手动调用 RootLayout 函数。
+ * 
+ * 
+ * ## 4. 为什么要用 <main> 包裹 children？
+ * 
+ * 语义化 HTML（Semantic HTML）：
+ * - <main> 标识页面的主要内容区域
+ * - 提升可访问性（屏幕阅读器能识别）
+ * - 有助于 SEO（搜索引擎更容易理解页面结构）
+ * 
+ * HTML5 语义规则：
+ * - 每个页面应该只有一个 <main>
+ * - 包含页面的核心内容
+ * - 不应该包含导航、侧边栏等重复内容
+ * 
+ * 实际效果：
+ * 当访问 /create-workspace 时：
+ * <RootLayout>
+ *   <CreateWorkspacePage />  // 这是 children
+ * </RootLayout>
+ * 
+ * 渲染结果：
+ * <html>
+ *   <body>
+ *     <main>
+ *       <CreateWorkspacePage />  // children 被包裹在 main 中
+ *     </main>
+ *     <Toaster />  // 这不是 children，是 RootLayout 自己的组件
+ *   </body>
+ * </html>
+ * 
+ * 
+ * ## 5. children 可以是来自任何一个 app 目录下的 page 组件吗？
+ * 
+ * 是的！完全正确！
+ * 
+ * Next.js 文件系统路由：
+ * src/app/
+ *   - layout.tsx              // RootLayout（自动包装所有页面）
+ *   - page.tsx                // / (首页)
+ *   - create-workspace/
+ *       - page.tsx            // /create-workspace
+ *   - (authentication)/
+ *       - auth/
+ *           - page.tsx        // /auth
+ *   - (main)/
+ *       - page.tsx            // / (主页)
+ *       - workspace/
+ *           - [id]/
+ *               - page.tsx     // /workspace/[id]
+ * 
+ * 自动路由映射：
+ * URL 路径                   对应的 page.tsx                    children 内容
+ * /                          app/(main)/page.tsx               <Home />
+ * /create-workspace           app/create-workspace/page.tsx    <CreateWorkspace />
+ * /auth                       app/(authentication)/auth/page.tsx <AuthPage />
+ * /workspace/123              app/(main)/workspace/[id]/page.tsx <WorkspacePage id="123" />
+ * 
+ * 
+ * ## 6. children 包含什么？
+ * 
+ * 重要概念：
+ * - children 只包含嵌套在组件标签之间的内容
+ * - 不包括组件内部的其他元素（如 <Toaster />）
+ * - 只有 <main>{children}</main> 中的 children 是传入的页面内容
+ * 
+ * 示例：
+ * RootLayout 内部：
+ * return (
+ *   <html>
+ *     <body>
+ *       <Header />        // 不是 children
+ *       <main>
+ *         {children}      // 这是 children（页面内容）
+ *       </main>
+ *       <Footer />        // 不是 children
+ *       <Toaster />       // 不是 children
+ *     </body>
+ *   </html>
+ * );
+ * 
+ * 使用 RootLayout：
+ * <RootLayout>
+ *   <Page />  // 这是 children
+ * </RootLayout>
+
+ * 
+ * ## 总结
+ * 
+ * 1. Readonly：防止修改 props，符合 React 不可变原则
+ * 2. 自动调用：Next.js 自动识别 layout.tsx 并调用
+ * 3. children：可以是 app 目录下任何一个 page.tsx 的内容
+ * 4. <main>：语义化标签，标识主要内容区域
+ * 5. 路由机制：Next.js 根据 URL 自动选择对应的页面组件
+ * 
+ * 这是 Next.js 文件系统路由的核心机制！
+ */
