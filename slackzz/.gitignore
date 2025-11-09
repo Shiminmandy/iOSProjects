@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/public/omst
 
 # next.js
 /.next/
