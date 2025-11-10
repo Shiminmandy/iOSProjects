@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@/providers/theme-provider';
 import { FC, ReactNode } from 'react'
 import { ColorPreferencesProvider } from '@/providers/color-preferences';
-
+import MainContent from '@/components/main-content';
 
 // children 功能： ({children}) 结构的是嵌套在该layout下的页面组件的jsx内容。
 // 当访问/(main) 下的任意页面时，nextjs会调用MainLayout，并把对应页面的渲染结果作为children传给它。
@@ -15,7 +15,9 @@ const MainLayout: FC<{ children: ReactNode }> = ({ children }) => {
             enableSystem
             disableTransitionOnChange
         >
-            <ColorPreferencesProvider>Main Layout:{children}</ColorPreferencesProvider>
+            <ColorPreferencesProvider>
+            <MainContent>{children}</MainContent>
+            </ColorPreferencesProvider>
         </ThemeProvider>
     )
 }

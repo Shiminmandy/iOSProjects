@@ -16,7 +16,7 @@ export type User = {
   workspaces: string[] | null;
 };
 
-export type workspaces = {
+export type Workspace = {
   channels: string[] | null;
   created_at: string;
   id: string;
