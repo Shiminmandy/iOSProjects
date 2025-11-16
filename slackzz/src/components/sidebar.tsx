@@ -4,7 +4,7 @@ import { Workspace } from "@/types/app";
 import { User } from "@/types/app";
 import SidebarNav from "./sidebar-nav";
 import { FiPlus } from "react-icons/fi";
-import { Tooltip, TooltipTrigger, TooltipProvider } from "./ui/tooltip";
+import { Tooltip, TooltipTrigger, TooltipProvider, TooltipContent } from "./ui/tooltip";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -15,7 +15,8 @@ import { GiNightSleep } from "react-icons/gi";
 import Typography from "./ui/typography";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
-
+import { Separator } from "./ui/separator";
+import { IoDiamondOutline } from "react-icons/io5";
 
 
 
@@ -67,6 +68,7 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                         <div>
                             <Popover >
                                 <PopoverTrigger >
+                                    {/* 触发器 （头像）*/}
                                     <div className='h-10 w-10 relative cursor-pointer'>
                                         <div className='h-full w-full rounded-lg overflow-hidden'>
                                             <Image
@@ -85,21 +87,25 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                                         </div>
                                     </div>
                                 </PopoverTrigger>
+                                {/* 弹出内容 （用户信息）， 可调整弹框位置*/}
                                 <PopoverContent side='right'>
                                     <div>
-                                        <div className='flex space-x-3 '>
+                                        <div className='flex space-x-3 bg-blue-500 '>
+                                            {/* 头像 */}
                                             <Avatar>
                                                 <AvatarImage src={userData.avatar_url} />
                                                 <AvatarFallback>
                                                     {userData.name && userData.name.slice(0, 2)}
                                                 </AvatarFallback>
                                             </Avatar>
+                                            {/* 用户名 */}
                                             <div className='flex flex-col'>
                                                 <Typography
                                                     text={userData.name || ''}
                                                     variant='p'
                                                     className='font-bold'
                                                 />
+                                                {/* 状态 */}
                                                 <div className='flex items-center space-x-1'>
                                                     {userData.is_away ? (
                                                         <GiNightSleep size='12' />
@@ -112,7 +118,7 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                                                 </div>
                                             </div>
                                         </div>
-
+                                        {/**使用group 实现 hover效果 ，不用精确hover每个图标实现hover效果*/}
                                         <div className='border group cursor-pointer mt-4 mb-2 p-1 rounded flex items-center space-x-2'>
                                             <FaRegCalendarCheck className='group-hover:hidden' />
                                             <FaPencil className='hidden group-hover:block' />
@@ -123,7 +129,12 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                                             />
                                         </div>
 
-                                        <div className='flex flex-col space-y-1'>
+                                        {/* 根据userData.is_away 显示不同的内容:
+                                        如果userData.is_away为true，则显示'Set yourself active'，否则显示'Set yourself as away'
+                                        如果userData.is_away为true，则显示'Clear Status'
+                                        显示'Profile'
+                                        */}
+                                        <div className='flex flex-col space-y-1 bg-red-500'>
                                             <Typography
                                                 text={userData.is_away ? 'Set yourself active' : 'Set yourself as away'}
                                                 variant='p'
@@ -136,12 +147,31 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                                                 className='hover:text-white hover:bg-blue-700 px-2 py-1 rounded cursor-pointer'
                                             />
 
-                                            <hr className='bg-gray-400'/>
+                                            {/* <hr className='bg-gray-400'/> */}
+                                            <Separator className=' border-gray-400' />
 
                                             <Typography
-                                            text={'Profile'}
+                                                text={'Profile'}
                                                 variant='p'
                                                 className='hover:text-white hover:bg-blue-700 px-2 py-1 rounded cursor-pointer'
+                                            />
+
+                                            {/*' Preferences Dialog' */}
+                                            <Separator className=' border-gray-400' />
+
+                                            {/* 升级和退出 */}
+                                            <div className='flex gap-2 items-center hover:text-white hover:bg-blue-700 px-2 py-1 rounded cursor-pointer'>
+                                                <IoDiamondOutline className='text-orange-400' />
+                                                <Typography
+                                                    variant='p'
+                                                    text={`Upgrade ${currentWorkspaceData.name}`}
+                                                    className='text-xs '
+                                                />
+                                            </div>
+                                            <Typography
+                                                variant='p'
+                                                text={`Sign out of ${currentWorkspaceData.name}`}
+                                                className='hover:text-white hover:bg-blue-700 px-2 py-1 rounded cursor-pointer '
                                             />
                                         </div>
                                     </div>
@@ -149,6 +179,17 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                             </Popover>
                         </div>
                     </TooltipTrigger>
+
+                    <TooltipContent
+                        className='text-white bg-black border-black'
+                        side='right'
+                    >
+                        <Typography
+                            text={userData.name || userData.email}
+                            variant='p'
+                            className='text-white'
+                        />
+                    </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
         </div>
