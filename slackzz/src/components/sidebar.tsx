@@ -180,6 +180,7 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                         </div>
                     </TooltipTrigger>
 
+                    {/* Tooltip 是一个悬停提示组件：鼠标悬停在元素上时显示简短提示信息。 */}
                     <TooltipContent
                         className='text-white bg-black border-black'
                         side='right'
