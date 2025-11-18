@@ -17,6 +17,7 @@ import { FaRegCalendarCheck } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { Separator } from "./ui/separator";
 import { IoDiamondOutline } from "react-icons/io5";
+import PreferenciesDialog from "./preferencies-dialog";
 
 
 
@@ -90,7 +91,7 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                                 {/* 弹出内容 （用户信息）， 可调整弹框位置*/}
                                 <PopoverContent side='right'>
                                     <div>
-                                        <div className='flex space-x-3 bg-blue-500 '>
+                                        <div className='flex space-x-3  '>
                                             {/* 头像 */}
                                             <Avatar>
                                                 <AvatarImage src={userData.avatar_url} />
@@ -134,7 +135,7 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                                         如果userData.is_away为true，则显示'Clear Status'
                                         显示'Profile'
                                         */}
-                                        <div className='flex flex-col space-y-1 bg-red-500'>
+                                        <div className='flex flex-col space-y-1'>
                                             <Typography
                                                 text={userData.is_away ? 'Set yourself active' : 'Set yourself as away'}
                                                 variant='p'
@@ -156,7 +157,8 @@ const Sidebar: FC<SidebarProps> = ({ userWorkspacesData, currentWorkspaceData, u
                                                 className='hover:text-white hover:bg-blue-700 px-2 py-1 rounded cursor-pointer'
                                             />
 
-                                            {/*' Preferences Dialog' */}
+                                            <PreferenciesDialog />
+                                            
                                             <Separator className=' border-gray-400' />
 
                                             {/* 升级和退出 */}

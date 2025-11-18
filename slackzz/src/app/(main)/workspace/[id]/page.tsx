@@ -34,7 +34,7 @@ const Workspace = async ({ params }: { params: Promise<{ id: string }> }) => {
           userWorkspacesData={userWorkspaceData as UserWorkspace[]}
         />
 
-        {/* <InfoSection /> */}
+        <InfoSection />
         <Typography text={'Workspace'} variant='h1' className='text-2xl font-bold' />
         <Typography text={'Workspace'} variant='h1' className='text-2xl font-bold' />
         <Typography text={'Workspace'} variant='h1' className='text-2xl font-bold' />

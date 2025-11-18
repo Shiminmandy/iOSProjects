@@ -70,7 +70,7 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                                         <Typography
                                                             variant='p'
                                                             text={workspace.invite_code || ''}
-                                                            className=' text-neutral-500'
+                                                            className=' text-neutral-500 text-xs'
                                                         />
                                                     </div>
                                                 </div>
