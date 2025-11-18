@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { FaPlus } from "react-icons/fa";
 import { RiHome2Fill } from "react-icons/ri";
 import { PiChatsTeardrop } from "react-icons/pi";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type SidebarNavProps = {
     userWorkspacesData: Workspace[];
@@ -23,9 +24,10 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
             <ul className='flex flex-col space-y-4'>
                 <li>
                     <div className='cursor-pointer items-center text-white mb-4 w-10 h-10 rounded-full overflow-hidden'>
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger>
+
+                            <Popover>
+                                <PopoverTrigger>
+                                    {/* 头像触发器 */}
                                     <Avatar>
                                         <AvatarImage
                                             src={currentWorkspaceData.image_url || ''}
@@ -39,9 +41,10 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                             />
                                         </AvatarFallback>
                                     </Avatar>
-                                </TooltipTrigger>
-                                <TooltipContent className='p-0' side='bottom'>
-                                    <Card className='w-[350px]  border-0'>
+                                </PopoverTrigger>
+                                <PopoverContent className='p-0' side='bottom'>
+                                    {/* 弹出内容：员工头像列表 */}
+                                    <Card className='w-[350px] p-0 m-0 border-0'>
                                         <CardContent className='flex p-0 flex-col'>
                                             {userWorkspacesData.map(workspace => (
                                                 <div
@@ -61,6 +64,7 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                                             />
                                                         </AvatarFallback>
                                                     </Avatar>
+                                                    {/* 员工信息 */}
                                                     <div>
                                                         <Typography
                                                             variant='p'
@@ -70,7 +74,7 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                                         <Typography
                                                             variant='p'
                                                             text={workspace.invite_code || ''}
-                                                            className=' text-neutral-500 text-xs'
+                                                            className=' text-xs lg:text-xs'
                                                         />
                                                     </div>
                                                 </div>
@@ -89,9 +93,9 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                         </CardContent>
                                     </Card>
 
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
+                                </PopoverContent>
+                            </Popover>
+
                     </div>
                     <div className='flex flex-col items-center cursor-pointer group text-white'>
                         <div className='p-2 rounded-lg bg-[rgba(255,255,255,0.3)]'>
