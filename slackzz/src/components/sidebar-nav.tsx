@@ -12,6 +12,9 @@ import { FaPlus } from "react-icons/fa";
 import { RiHome2Fill } from "react-icons/ri";
 import { PiChatsTeardrop } from "react-icons/pi";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import CreateWorkpsace from "./create-workpsace";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type SidebarNavProps = {
     userWorkspacesData: Workspace[];
@@ -19,6 +22,21 @@ type SidebarNavProps = {
 }
 
 const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesData }) => {
+
+const router = useRouter();
+
+const [switchingWorkspace, setSwitchingWorkspace] = useState(false);
+
+const switchWorkspace = (id: string) => {
+
+    setSwitchingWorkspace(true);
+
+    router.push(`/workspace/${id}`);
+
+    setSwitchingWorkspace(false);
+
+};
+
     return (
         <nav>
             <ul className='flex flex-col space-y-4'>
@@ -50,6 +68,7 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                                 <div
                                                     key={workspace.id}
                                                     className='hover:opacity-70 px-2 py-1 flex gap-2'
+                                                    onClick={() => switchWorkspace(workspace.id)}
                                                 >
                                                     <Avatar className='w-10 h-10'>
                                                         <AvatarImage
@@ -81,15 +100,7 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                             ))}
 
                                             <Separator />
-                                            <div className='flex items-center gap-2 p-2'>
-                                                <Button variant='secondary'>
-                                                    <FaPlus />
-                                                </Button>
-                                                <Typography
-                                                    variant='p'
-                                                    text='Add Workspace'
-                                                />
-                                            </div>
+                                            <CreateWorkpsace />
                                         </CardContent>
                                     </Card>
 
