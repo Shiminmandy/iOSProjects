@@ -7,35 +7,48 @@ import Typography from "./ui/typography";
 import { Card } from "./ui/card";
 import { CardContent } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
-import { FaPlus } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 import { RiHome2Fill } from "react-icons/ri";
 import { PiChatsTeardrop } from "react-icons/pi";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import CreateWorkpsace from "./create-workpsace";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ProgressBar from "./progress-bar";
+import { useColorPreferences } from "@/providers/color-preferences";
 
 type SidebarNavProps = {
     userWorkspacesData: Workspace[];
     currentWorkspaceData: Workspace;
 }
 
+
+
 const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesData }) => {
 
-const router = useRouter();
+    const router = useRouter();
 
-const [switchingWorkspace, setSwitchingWorkspace] = useState(false);
+    const [switchingWorkspace, setSwitchingWorkspace] = useState(false);
 
-const switchWorkspace = (id: string) => {
+    const { color } = useColorPreferences();
 
-    setSwitchingWorkspace(true);
+    let backgroundColor = 'bg-primary-dark';
+    if (color === 'green') {
+        backgroundColor = 'bg-green-700';
+    } else if (color === 'blue') {
+        backgroundColor = 'bg-blue-700';
+    }
 
-    router.push(`/workspace/${id}`);
+    const switchWorkspace = (id: string) => {
+        // 如果点击的是当前工作区，直接返回，不做任何操作
+        if (id === currentWorkspaceData.id) {
+            return;
+        }
 
-    setSwitchingWorkspace(false);
-
-};
+        // 只有切换到不同工作区时才显示进度条并跳转
+        setSwitchingWorkspace(true);
+        router.push(`/workspace/${id}`);
+    };
 
     return (
         <nav>
@@ -43,69 +56,81 @@ const switchWorkspace = (id: string) => {
                 <li>
                     <div className='cursor-pointer items-center text-white mb-4 w-10 h-10 rounded-full overflow-hidden'>
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    {/* 头像触发器 */}
-                                    <Avatar>
-                                        <AvatarImage
-                                            src={currentWorkspaceData.image_url || ''}
-                                            alt={currentWorkspaceData.name}
-                                            className='object-cover w-full h-full'
+                        <Popover>
+                            <PopoverTrigger>
+                                {/* 头像触发器 */}
+                                <Avatar>
+                                    <AvatarImage
+                                        src={currentWorkspaceData.image_url || ''}
+                                        alt={currentWorkspaceData.name}
+                                        className='object-cover w-full h-full'
+                                    />
+                                    <AvatarFallback className='bg-neutral-700'>
+                                        <Typography
+                                            variant='p'
+                                            text={currentWorkspaceData.name.slice(0, 2)}
                                         />
-                                        <AvatarFallback className='bg-neutral-700'>
-                                            <Typography
-                                                variant='p'
-                                                text={currentWorkspaceData.name.slice(0, 2)}
-                                            />
-                                        </AvatarFallback>
-                                    </Avatar>
-                                </PopoverTrigger>
-                                <PopoverContent className='p-0' side='bottom'>
-                                    {/* 弹出内容：员工头像列表 */}
-                                    <Card className='w-[350px] p-0 m-0 border-0'>
-                                        <CardContent className='flex p-0 flex-col'>
-                                            {userWorkspacesData.map(workspace => (
-                                                <div
-                                                    key={workspace.id}
-                                                    className='hover:opacity-70 px-2 py-1 flex gap-2'
-                                                    onClick={() => switchWorkspace(workspace.id)}
-                                                >
-                                                    <Avatar className='w-10 h-10'>
-                                                        <AvatarImage
-                                                            src={workspace.image_url || ''}
-                                                            alt={workspace.name}
-                                                            className='object-cover w-full h-full'
-                                                        />
-                                                        <AvatarFallback>
-                                                            <Typography
-                                                                variant='p'
-                                                                text={workspace.name.slice(0, 2)}
-                                                            />
-                                                        </AvatarFallback>
-                                                    </Avatar>
-                                                    {/* 员工信息 */}
-                                                    <div>
-                                                        <Typography
-                                                            variant='p'
-                                                            text={workspace.name}
-                                                            className='text-sm'
-                                                        />
-                                                        <Typography
-                                                            variant='p'
-                                                            text={workspace.invite_code || ''}
-                                                            className=' text-xs lg:text-xs'
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
+                                    </AvatarFallback>
+                                </Avatar>
+                            </PopoverTrigger>
+                            <PopoverContent className='p-0' side='bottom'>
+                                {/* 弹出内容：员工头像列表 */}
+                                <Card className='w-[350px]  border-0'>
+                                    <CardContent className='flex p-0  flex-col'>
+                                        {switchingWorkspace ?
+                                            (<div className='m-2'>
+                                                <ProgressBar />
+                                            </div>) : (
+                                                userWorkspacesData.map(workspace => {
+                                                    const isActive =
+                                                        workspace.id === currentWorkspaceData.id;
 
-                                            <Separator />
-                                            <CreateWorkpsace />
-                                        </CardContent>
-                                    </Card>
+                                                    return (
+                                                        <div
+                                                            key={workspace.id}
+                                                            className={cn(
+                                                                isActive && backgroundColor
+                                                                , 'cursor-pointer px-2 py-1 flex gap-2')}
+                                                            onClick={() => switchWorkspace(workspace.id)}
+                                                        >
+                                                            <Avatar className='w-10 h-10'>
+                                                                <AvatarImage
+                                                                    src={workspace.image_url || ''}
+                                                                    alt={workspace.name}
+                                                                    className='object-cover w-full h-full'
+                                                                />
+                                                                <AvatarFallback>
+                                                                    <Typography
+                                                                        variant='p'
+                                                                        text={workspace.name.slice(0, 2)}
+                                                                    />
+                                                                </AvatarFallback>
+                                                            </Avatar>
+                                                            {/* 员工信息 */}
+                                                            <div>
+                                                                <Typography
+                                                                    variant='p'
+                                                                    text={workspace.name}
+                                                                    className='text-sm'
+                                                                />
+                                                                <Typography
+                                                                    variant='p'
+                                                                    text={workspace.invite_code || ''}
+                                                                    className=' text-xs lg:text-xs'
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            )}
 
-                                </PopoverContent>
-                            </Popover>
+                                        <Separator />
+                                        <CreateWorkpsace />
+                                    </CardContent>
+                                </Card>
+
+                            </PopoverContent>
+                        </Popover>
 
                     </div>
                     <div className='flex flex-col items-center cursor-pointer group text-white'>

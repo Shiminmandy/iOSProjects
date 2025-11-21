@@ -66,11 +66,11 @@ const CreateWorkpsace = () => {
             open={isOpen}
             onOpenChange={() => setIsOpen(prevValue => !prevValue)}
             >
-                <DialogTrigger>
-                    <div className='flex items-center gap-2 p-2'>
-                        <Button variant='secondary'>
+                <DialogTrigger asChild>
+                    <div className='flex items-center gap-2 p-2 cursor-pointer hover:bg-accent rounded-md'>
+                        <div className='bg-secondary p-2 rounded-md'>
                             <FaPlus />
-                        </Button>
+                        </div>
                         <Typography
                             variant='p'
                             text='Add Workspace'
