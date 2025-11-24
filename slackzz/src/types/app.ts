@@ -28,3 +28,12 @@ export type Workspace = {
   slug: string;
   super_admin: string;
 };
+
+export type Channel = {
+  id: string;
+  members: string[] | null;
+  name: string;
+  regulators: string[] | null;
+  workspace_id: string;
+  user_id: string;
+};

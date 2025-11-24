@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      channels: {
+        Row: {
+          id: string
+          members: string[] | null
+          name: string
+          regulators: string[] | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          id?: string
+          members?: string[] | null
+          name: string
+          regulators?: string[] | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          id?: string
+          members?: string[] | null
+          name?: string
+          regulators?: string[] | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "channels_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "channels_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string
@@ -59,7 +101,7 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
-          invite_code: string 
+          invite_code: string
           members: string[] | null
           name: string
           regulators: string[] | null
@@ -71,7 +113,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
-          invite_code?: string 
+          invite_code: string
           members?: string[] | null
           name: string
           regulators?: string[] | null
@@ -83,7 +125,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string | null
-          invite_code?: string 
+          invite_code?: string
           members?: string[] | null
           name?: string
           regulators?: string[] | null
@@ -105,7 +147,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_channel_to_workspace: {
+        Args: { channel_id: string; workspace_id: string }
+        Returns: undefined
+      }
+      add_member_to_workspace: {
+        Args: { user_id: string; workspace_id: string }
+        Returns: undefined
+      }
+      add_workspace_to_user: {
+        Args: { new_workspace: string; user_id: string }
+        Returns: undefined
+      }
+      update_channel_members: {
+        Args: { channel_id: string; new_member: string }
+        Returns: undefined
+      }
+      update_user_channels: {
+        Args: { channel_id: string; user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

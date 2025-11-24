@@ -2,9 +2,10 @@ import { getUserData } from '@/actions/get-user-data';
 import { redirect } from 'next/navigation';
 import { getUserWorkspaceData, getCurrentWorkspaceData } from '@/actions/workspaces';
 import Sidebar from '@/components/sidebar';
-import { Workspace as UserWorkspace } from '@/types/app';
+import { Channel, Workspace as UserWorkspace } from '@/types/app';
 import InfoSection from '@/components/info-section';
 import Typography from '@/components/ui/typography';
+import { getUserWorkspaceChannels } from '@/actions/get-user-workspace-channels';
 
 
 //从传进来的对象中解构出params，再从params中解构出id变量
@@ -23,6 +24,10 @@ const Workspace = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(id);
 
+  const userWorkspaceChannels = await getUserWorkspaceChannels(currentWorkspaceData.id, userData.id);
+
+
+
   return (
     <>
       <div className='hidden md:block'>
@@ -34,7 +39,7 @@ const Workspace = async ({ params }: { params: Promise<{ id: string }> }) => {
           userWorkspacesData={userWorkspaceData as UserWorkspace[]}
         />
 
-        <InfoSection userData={userData} currentWorkspaceData={currentWorkspaceData} />
+        <InfoSection userData={userData} currentWorkspaceData={currentWorkspaceData} userWorkspaceChannels={userWorkspaceChannels as Channel[]} currentChannelId='' />
         <Typography text={'Workspace'} variant='h1' className='text-2xl font-bold' />
         <Typography text={'Workspace'} variant='h1' className='text-2xl font-bold' />
         <Typography text={'Workspace'} variant='h1' className='text-2xl font-bold' />

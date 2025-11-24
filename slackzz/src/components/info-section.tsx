@@ -8,14 +8,22 @@ import { FaArrowDown, FaArrowUp, FaPlus } from "react-icons/fa";
 import Typography from "./ui/typography";
 import CreateChannelDialog from "./create-channel-dialog";
 import { FC } from "react";
-import { User } from "@/types/app";
+import { Channel, User } from "@/types/app";
 import { Workspace } from "@/types/app";
+import { useRouter } from "next/navigation";
 
-
-const InfoSection:FC<{
+/**
+ * 声明一个名为info section的常量，是一个函数组件function component
+ *  接受两个props参数，userData和currentWorkspaceData（此时只是类型声明）
+ * 使用箭头函数定义组件，并返回一个div元素
+ * 通过destructing结构出userData和currentWorkspaceData两个属性
+ */
+const InfoSection: FC<{
   userData: User;
   currentWorkspaceData: Workspace;
-}> = ({ userData, currentWorkspaceData }) => {
+  userWorkspaceChannels: Channel[];
+  currentChannelId: string;
+}> = ({ userData, currentWorkspaceData, userWorkspaceChannels, currentChannelId }) => {
 
   const { color } = useColorPreferences();
 
@@ -27,18 +35,25 @@ const InfoSection:FC<{
     backgroundColor = 'bg-blue-900';
   }
 
-  let hoverBg = 'hover:bg-primary-dark';
+  let secondayBg = 'bg-primary-dark'; // secondary background color
   // 根据color的值，设置不同的背景颜色
   if (color === 'green') {
-    hoverBg = 'hover:bg-green-900';
+    secondayBg = 'bg-green-900';
   } else if (color === 'blue') {
-    hoverBg = 'hover:bg-blue-900';
+    secondayBg = 'bg-blue-900';
   }
 
-  let secondayBg = 'bg-primary-dark';
 
-  const [isChannelCollapsed, setIsChannelCollapsed] = useState(false);
-  const [isDirectMessagesCollapsed, setIsDirectMessagesCollapsed] = useState(false);
+
+  const router = useRouter();
+
+  const navigationToChannel = (channelId: string) => {
+    const url = `/workspace/${currentWorkspaceData.id}/channels/${channelId}`;
+    router.push(url);
+  }
+
+  const [isChannelCollapsed, setIsChannelCollapsed] = useState(true);
+  const [isDirectMessagesCollapsed, setIsDirectMessagesCollapsed] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
@@ -71,23 +86,20 @@ const InfoSection:FC<{
               </div>
             </div>
             <CollapsibleContent>
-              <Typography
-                variant='p'
-                text='# channerl-name-1'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', hoverBg)}
-              />
 
-              <Typography
-                variant='p'
-                text='# channerl-name-2'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', hoverBg)}
-              />
+              {userWorkspaceChannels.map((channel) => {
 
-              <Typography
-                variant='p'
-                text='# channerl-name-3'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', hoverBg)}
-              />
+                const activeChannel = currentChannelId === channel.id
+                return (
+                  <Typography
+                    key={channel.id}
+                    variant='p'
+                    text={`# ${channel.name}`}
+                    className={cn('px-2 py-1 rounded-sm cursor-pointer', `hover:${secondayBg}`, activeChannel && secondayBg)}
+                    onClick={() => navigationToChannel(channel.id)}
+                  />
+                );
+              })}
             </CollapsibleContent>
           </Collapsible>
 
@@ -115,19 +127,19 @@ const InfoSection:FC<{
               <Typography
                 variant='p'
                 text='User Name 1'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', hoverBg)}
+                className={cn('px-2 py-1 rounded-sm cursor-pointer', secondayBg)}
               />
 
               <Typography
                 variant='p'
                 text='User Name 2'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', hoverBg)}
+                className={cn('px-2 py-1 rounded-sm cursor-pointer', secondayBg)}
               />
 
               <Typography
                 variant='p'
                 text='User Name 3'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', hoverBg)}
+                className={cn('px-2 py-1 rounded-sm cursor-pointer', secondayBg)}
               />
             </CollapsibleContent>
           </Collapsible>

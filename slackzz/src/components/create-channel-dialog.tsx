@@ -9,6 +9,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
+import { createChannel } from '@/actions/channels';
+import { useRouter } from 'next/navigation';
 
 const CreateChannelDialog: FC<{
     dialogOpen: boolean;
@@ -18,6 +20,7 @@ const CreateChannelDialog: FC<{
 }> = ({ setDialogOpen, dialogOpen, workspaceId, userId }) => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const router = useRouter();
 
     const formSchema = z.object({
         name: z.string().min(2, { message: 'Channel name should be at least 2 characters long' }),
@@ -34,7 +37,10 @@ const CreateChannelDialog: FC<{
         try {
             setIsSubmitting(true);
 
+            await createChannel({ name, workspaceId, userId });
 
+
+            router.refresh();
             setIsSubmitting(false);
             setDialogOpen(false);
             form.reset();
@@ -65,7 +71,7 @@ const CreateChannelDialog: FC<{
                         <FormField
                             control={form.control}
                             name='name'
-                            render={(field) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
                                         <Typography variant='p' text='Channel Name' />
