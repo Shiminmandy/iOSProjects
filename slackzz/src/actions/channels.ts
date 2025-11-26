@@ -37,10 +37,8 @@ export const createChannel = async ({
     await updateChannelMembers(channelRecord[0].id, userId);
 
   if (updateChannelMembersError) {
-    console.error("❌ Update channel members error:", updateChannelMembersError);
-    return { error: "Update Members Channel Error", details: updateChannelMembersError };
+    return { error: "Update Members Channel Error" };
   }
-  console.log("✅ Channel members updated");
 
   // Add channel to user's channels array
   const [addChannelToUserData, addChannelToUserError] = await addChannelToUser(
@@ -49,22 +47,16 @@ export const createChannel = async ({
   );
 
   if (addChannelToUserError) {
-    console.error("❌ Add channel to user error:", addChannelToUserError);
-    return { error: "Add Channel to User Error", details: addChannelToUserError };
+    return { error: "Add Channel to User Error" };
   }
-  console.log("✅ Channel added to user");
 
   // Add channel to workspace
   const [updateWorkspaceChannelData, updateWorkspaceChannelError] =
     await updateWorkspaceChannel(channelRecord[0].id, workspaceId);
 
   if (updateWorkspaceChannelError) {
-    console.error("❌ Update workspace error:", updateWorkspaceChannelError);
-    return { error: "Update Workspace Channel Error", details: updateWorkspaceChannelError };
+    return { error: "Update Workspace Channel Error" };
   }
-  console.log("✅ Workspace updated");
-
-  return { success: true, data: channelRecord[0] };
 
   
 };

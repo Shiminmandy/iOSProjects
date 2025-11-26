@@ -12,8 +12,9 @@ import { getUserWorkspaceChannels } from '@/actions/get-user-workspace-channels'
 // 右边{ params: { id: string } }是typescript的类型注解，声明params是个对象，里面有一个id字段，类型是string
 // [id] 来自于（main）的page.tsx中的路由参数，里面定义了users table中workspaces的第一条id
 
-const Workspace = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
+const Workspace = async ({ params }: { params: Promise<{ workspaceId: string }> }) => {
+
+  const { workspaceId } = await params;
   const userData = await getUserData();
 
   if (!userData) {
@@ -22,9 +23,13 @@ const Workspace = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const [userWorkspaceData, userWorkspaceError] = await getUserWorkspaceData(userData.workspaces!);
 
-  const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(id);
+  const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(workspaceId);
 
   const userWorkspaceChannels = await getUserWorkspaceChannels(currentWorkspaceData.id, userData.id);
+
+  // if (userWorkspaceChannels.length){
+  //   redirect(`/workspace/${workspaceId}/channels/${userWorkspaceChannels[0].id}`);
+  // }
 
 
 

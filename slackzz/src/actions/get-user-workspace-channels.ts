@@ -14,7 +14,7 @@ export const getUserWorkspaceChannels = async (
     .eq("id", workspaceId)
     .single();
 
-  if (workspaceError || !workspaceData) {
+  if (workspaceError ) {
     return { error: "Failed to fetch workspace channels" };
   }
 
