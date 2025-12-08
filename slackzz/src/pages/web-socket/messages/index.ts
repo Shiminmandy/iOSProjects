@@ -4,19 +4,21 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") return res.status(405);
+  if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
 
   try {
+
+    {/** 获取当前登陆用户数据 */}
     const userData = await getUserDataPages(req, res);
 
     if (!userData) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const { channelId, workspaceId } = req.body;
+    const { channelId, workspaceId } = req.query;
 
     if (!channelId || !workspaceId) {
-      return res.status(400).json({ error: "Missing channelId or workspaceId" });
+      return res.status(400).json({ error: "Bad Request" });
     }
 
     const {content, fileUrl} = req.body;

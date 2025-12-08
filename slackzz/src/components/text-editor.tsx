@@ -1,25 +1,57 @@
 'use client'
 import { Send } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { Button } from './ui/button'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import PlaceHolder from '@tiptap/extension-placeholder'
+import { Channel,Workspace } from '@/types/app'
+import axios from 'axios'
 
-const TextEditor = () => {
+
+type TextEditorProps = {
+    apiUrl: string;
+    type: 'channel' | 'directMessage';
+    channel: Channel;
+    workspaceData: Workspace;
+};
+
+const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData }) => {
 
     const [content, setContent] = useState('')
 
-    const editor = useEditor({
+    const editor = useEditor({  
         extensions: [
             StarterKit,
             PlaceHolder.configure({
-                placeholder: `Message ...`,
+                placeholder: `Message #${type === 'channel' ? channel.name : "username"}`,
             }),
         ],
+        autofocus: true,
+        content,
+        onUpdate: ({ editor }) => {
+            setContent(editor.getHTML());
+        },
         immediatelyRender: false,  // Fix SSR hydration issue
     })
+
+    const handleSend = async () => {
+        if (!content) return;
+
+        try {
+            await axios.post(`${apiUrl}?channelId=${channel.id}&workspaceId=${workspaceData.id}`, 
+                {
+                    content,
+                }
+            );
+
+            setContent('');
+            editor?.commands.setContent('');
+        } catch (error) {
+            console.log("FAILED TO SEND MESSAGE: ", error);
+        }
+    };
     return (
         <div className='p-1 border dark:border-zinc-500 border-neutral-700 rounded-md relative overflow-hidden'>
             <div className='sticky top-0 z-10'>
@@ -42,7 +74,7 @@ const TextEditor = () => {
                 />
             </div>
 
-            <Button size='icon' className='absolute bottom-1 right-1'>
+            <Button onClick={handleSend} disabled={!content} size='icon' className='absolute bottom-1 right-1'>
                 <Send />
             </Button>
 

@@ -60,7 +60,7 @@ const ChannelId = async ({ params }: { params: Promise<{ workspaceId: string, ch
                 </div>
             </div>
 
-            <TextEditor />
+            <TextEditor apiUrl={`/api/web-socket/messages`} type='channel' channel={currentChannelData} workspaceData={currentWorkspaceData} />
 
         </div>
 
