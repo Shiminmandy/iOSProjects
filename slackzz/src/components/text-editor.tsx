@@ -6,8 +6,10 @@ import { Button } from './ui/button'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import PlaceHolder from '@tiptap/extension-placeholder'
-import { Channel,Workspace } from '@/types/app'
+import { Channel, Workspace, User } from '@/types/app'
 import axios from 'axios'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog'
+import ChatFileUpload from './chat-file-upload'
 
 
 type TextEditorProps = {
@@ -15,13 +17,20 @@ type TextEditorProps = {
     type: 'channel' | 'directMessage';
     channel: Channel;
     workspaceData: Workspace;
+    userData: User;
 };
 
-const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData }) => {
+const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData, userData }) => {
 
     const [content, setContent] = useState('')
 
-    const editor = useEditor({  
+    const [fileUploadModal, setFileUploadModalOpen] = useState(false);
+
+    const toggleFileUploadModal = () => {
+        setFileUploadModalOpen(prev => !prev);
+    }
+
+    const editor = useEditor({
         extensions: [
             StarterKit,
             PlaceHolder.configure({
@@ -40,7 +49,7 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData 
         if (!content) return;
 
         try {
-            await axios.post(`${apiUrl}?channelId=${channel.id}&workspaceId=${workspaceData.id}`, 
+            await axios.post(`${apiUrl}?channelId=${channel.id}&workspaceId=${workspaceData.id}`,
                 {
                     content,
                 }
@@ -61,14 +70,14 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData 
             <div className='h-[150px] pt-11 flex w-full grow-1'>
                 {/* Editor Content */}
                 <EditorContent
-                className='prose w-full h-full dark:text-white leading-[1.15px] overflow-y-hidden whitespace-pre-wrap'
-                editor={editor}
+                    className='prose w-full h-full dark:text-white leading-[1.15px] overflow-y-hidden whitespace-pre-wrap'
+                    editor={editor}
                 />
             </div>
 
             <div className='absolut top-3 z-10 right-3 bg-black dark:bg-white cursor-pointer transition-all duration-500 hover:scale-110 text-white grid place-content-center rounded-full w-6 h-6'>
                 <FiPlus
-                    onClick={() => { }}
+                    onClick={toggleFileUploadModal}
                     size={28}
                     className=' dark:text-black'
                 />
@@ -78,7 +87,26 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData 
                 <Send />
             </Button>
 
-</div>
+            <Dialog
+                open={fileUploadModal}
+                onOpenChange={toggleFileUploadModal}
+            >
+                <DialogContent className='sm:max-w-md'>
+                    <DialogHeader>
+                        <DialogTitle>Upload File</DialogTitle>
+                        <DialogDescription>Upload a file to share with your team</DialogDescription>
+                    </DialogHeader>
+
+                    <ChatFileUpload
+                        userData={userData}
+                        workspaceData={workspaceData}
+                        channel={channel}
+                        toggleFileUploadModal={toggleFileUploadModal}
+                    />
+                </DialogContent>
+            </Dialog>
+
+        </div>
     )
 }
 
