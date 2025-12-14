@@ -64,6 +64,7 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData,
     };
     return (
         <div className='p-1 border dark:border-zinc-500 border-neutral-700 rounded-md relative overflow-hidden'>
+            {/**sticky让这行工具按钮固定在顶部，当内容多到页面滚动时，工具按钮不会随着滚动 */}
             <div className='sticky top-0 z-10'>
                 {/* menu bar */}
                 {editor && <MenuBar editor={editor} />}

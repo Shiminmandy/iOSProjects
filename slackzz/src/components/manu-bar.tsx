@@ -17,10 +17,11 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
     return (
         <div className='flex items-center flex-wrap gap-2 absolute z-10 top-0 left-0 w-full p-2 bg-neutral-100 dark:bg-neutral-900'>
             {/** tiptap 链式api */}
+            {/** Light: 白底黑字, Dark: 黑底白字 */}
             <Button
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 disabled={!editor.can().chain().focus().toggleBold().run()}
-                className={editor.isActive('bold') ? 'border-white' : 'border-black'}
+                className={`bg-neutral-100 text-black dark:dark:bg-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 ${editor.isActive('bold') ? 'ring-2 ring-black dark:ring-white' : ''}`}
             >
                 <Bold className='w-4 h-4' />
             </Button>
@@ -28,7 +29,7 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
             <Button
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 disabled={!editor.can().chain().focus().toggleItalic().run()}
-                className={editor.isActive('italic') ? 'border-white' : 'border-black'}
+                className={`bg-neutral-100 text-black dark:dark:bg-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 ${editor.isActive('italic') ? 'ring-2 ring-black dark:ring-white' : ''}`}
             >
                 <Italic className='w-4 h-4' />
             </Button>
@@ -36,21 +37,21 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
             <Button
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 disabled={!editor.can().chain().focus().toggleStrike().run()}
-                className={editor.isActive('strike') ? 'border-white' : 'border-black'}
+                className={`bg-neutral-100 text-black dark:dark:bg-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 ${editor.isActive('strike') ? 'ring-2 ring-black dark:ring-white' : ''}`}
             >
                 <Strikethrough className='w-4 h-4' />
             </Button>
 
             <Button
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
-                className={editor.isActive('bulletList') ? 'border-white' : 'border-black'}
+                className={`bg-neutral-100 text-black dark:dark:bg-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 ${editor.isActive('bulletList') ? 'ring-2 ring-black dark:ring-white' : ''}`}
             >
                 <List className='w-4 h-4' />
             </Button>
 
             <Button
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                className={editor.isActive('orderedList') ? 'border-white' : 'border-black'}
+                className={`bg-neutral-100 text-black dark:dark:bg-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 ${editor.isActive('orderedList') ? 'ring-2 ring-black dark:ring-white' : ''}`}
             >
                 <ListOrdered className='w-4 h-4' />
             </Button>
@@ -63,14 +64,14 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
 
             <Button
                 onClick={() => editor.chain().focus().toggleCode().run()}
-                className={editor.isActive('code') ? 'border-white' : 'border-black'}
+                className={`bg-neutral-100 text-black dark:dark:bg-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 ${editor.isActive('code') ? 'ring-2 ring-black dark:ring-white' : ''}`}
             >
                 <Code className='w-4 h-4' />
             </Button>
 
             <Button
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                className={editor.isActive('codeBlock') ? 'border-white' : 'border-black'}
+                className={`bg-neutral-100 text-black dark:dark:bg-neutral-900 dark:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 ${editor.isActive('codeBlock') ? 'ring-2 ring-black dark:ring-white' : ''}`}
             >
                 <SquareCode className='size-4' />
             </Button>
