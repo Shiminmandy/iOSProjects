@@ -16,6 +16,7 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
 
     return (
         <div className='flex items-center flex-wrap gap-2 absolute z-10 top-0 left-0 w-full p-2 bg-neutral-100 dark:bg-neutral-900'>
+            {/** tiptap 链式api */}
             <Button
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -71,7 +72,7 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
                 className={editor.isActive('codeBlock') ? 'border-white' : 'border-black'}
             >
-                <SquareCode className='w-4 h-4' />
+                <SquareCode className='size-4' />
             </Button>
 
             <Typography

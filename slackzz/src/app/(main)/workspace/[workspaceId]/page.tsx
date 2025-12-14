@@ -21,10 +21,19 @@ const Workspace = async ({ params }: { params: Promise<{ workspaceId: string }> 
     return redirect('/auth');
   }
 
+  /**
+   * 通过getuserdata获取用户的user table数据，再通过user table数据中的workspaces字段（包含所有创建的工作区id）获取用户的所有工作区数据
+   */
   const [userWorkspaceData, userWorkspaceError] = await getUserWorkspaceData(userData.workspaces!);
 
+  /**
+   * 通过workspaceId（来自于当前页面路由参数）获取特定工作区数据
+   */
   const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(workspaceId);
 
+  /**
+   * 根据传入的workspaceId和userId，查到用户在这个工作区能看到的频道列表
+   */
   const userWorkspaceChannels = await getUserWorkspaceChannels(currentWorkspaceData.id, userData.id);
 
   // if (userWorkspaceChannels.length){

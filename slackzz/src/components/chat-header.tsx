@@ -16,8 +16,8 @@ const ChatHeader: FC<ChatHeaderProp> = ({ title }) => {
 
 
     return (
-        <div className='absolute z-20 h-10 top-0 left-0 w-full'>
-            <div className='h-10 flex items-center justify-between px-4 fixed md:w-[calc(100%-305px)] lg:w-[calc(100%-447px)] bg-white dark:bg-neutral-800 border-b border-b-white/30 shadow-md'>
+        <div className='absolute  h-10 top-0 left-0 w-full'>
+            <div className='h-10 flex items-center justify-between px-4 fixed md:w-[calc(100%-305px)] lg:w-[calc(100%-447px)]   dark:bg-neutral-800 border-b border-b-white/30 shadow-sm'>
                 <Typography
                     text={`# ${title}`}
                     variant='h4'

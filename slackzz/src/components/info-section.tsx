@@ -38,9 +38,9 @@ const InfoSection: FC<{
   let secondayBg = 'bg-primary-dark'; // secondary background color
   // 根据color的值，设置不同的背景颜色
   if (color === 'green') {
-    secondayBg = 'bg-green-900';
+    secondayBg = 'bg-green-700';
   } else if (color === 'blue') {
-    secondayBg = 'bg-blue-900';
+    secondayBg = 'bg-blue-700';
   }
 
 
@@ -64,7 +64,7 @@ const InfoSection: FC<{
     >
 
       {/** Channels section */}
-      <div className='w-full flex flex-col gap-2 p-3 bg-red-500'>
+      <div className='w-full flex flex-col gap-2 p-3 '>
         <div>
           <Collapsible
             open={isChannelCollapsed}
@@ -109,6 +109,7 @@ const InfoSection: FC<{
             className='flex flex-col gap-2'
           >
             <div className='flex items-center justify-between'>
+              {/** 触发展开/收起的图标 */}
               <CollapsibleTrigger className='flex items-center gap-2'>
                 {isDirectMessagesCollapsed ? <FaArrowDown /> : <FaArrowUp />}
                 <Typography variant='p' text='Direct Messages' className='font-bold' />

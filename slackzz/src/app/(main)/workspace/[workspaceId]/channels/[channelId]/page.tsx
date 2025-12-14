@@ -37,7 +37,7 @@ const ChannelId = async ({ params }: { params: Promise<{ workspaceId: string, ch
     return (
         <div className='hidden md:block'>
 
-            <div className='h-[calc(100vh-256px)] bg-red-500 overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-[6px] [&::-webkit-scrollbar-thumb]:bg-foreground/60 [&::-webkit-scrollbar-track:bg-none [&::-webkit-scrollbar]:w-2'>
+            <div className='h-[calc(100vh-256px)]  overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-[6px] [&::-webkit-scrollbar-thumb]:bg-foreground/60 [&::-webkit-scrollbar-track:bg-none [&::-webkit-scrollbar]:w-2'>
                 <Sidebar
                     currentWorkspaceData={currentWorkspaceData}
                     userData={userData}
@@ -60,8 +60,9 @@ const ChannelId = async ({ params }: { params: Promise<{ workspaceId: string, ch
                 </div>
             </div>
 
-            <TextEditor apiUrl={`/api/web-socket/messages`} type='channel' channel={currentChannelData} workspaceData={currentWorkspaceData} userData={userData} />
-
+            <div className='m-4'>
+                <TextEditor apiUrl={`/api/web-socket/messages`} type='channel' channel={currentChannelData} workspaceData={currentWorkspaceData} userData={userData} />
+            </div>
         </div>
 
     )

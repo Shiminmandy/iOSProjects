@@ -10,6 +10,7 @@ import { Channel, Workspace, User } from '@/types/app'
 import axios from 'axios'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog'
 import ChatFileUpload from './chat-file-upload'
+import MenuBar from './manu-bar'
 
 
 type TextEditorProps = {
@@ -65,17 +66,18 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData,
         <div className='p-1 border dark:border-zinc-500 border-neutral-700 rounded-md relative overflow-hidden'>
             <div className='sticky top-0 z-10'>
                 {/* menu bar */}
+                {editor && <MenuBar editor={editor} />}
             </div>
 
             <div className='h-[150px] pt-11 flex w-full grow-1'>
                 {/* Editor Content */}
                 <EditorContent
-                    className='prose w-full h-full dark:text-white leading-[1.15px] overflow-y-hidden whitespace-pre-wrap'
+                    className='prose w-full h-full dark:text-white leading-[1.15px] overflow-y-hidden whitespace-pre-wrap [&_*]:outline-none'
                     editor={editor}
                 />
             </div>
 
-            <div className='absolut top-3 z-10 right-3 bg-black dark:bg-white cursor-pointer transition-all duration-500 hover:scale-110 text-white grid place-content-center rounded-full w-6 h-6'>
+            <div className='absolute top-3 z-10 right-3 bg-black dark:bg-white cursor-pointer transition-all duration-500 hover:scale-110 text-white grid place-content-center rounded-full w-6 h-6'>
                 <FiPlus
                     onClick={toggleFileUploadModal}
                     size={28}
@@ -83,7 +85,7 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData,
                 />
             </div>
 
-            <Button onClick={handleSend} disabled={!content} size='icon' className='absolute bottom-1 right-1'>
+            <Button onClick={handleSend} disabled={!content} size='sm' className='absolute bottom-1 right-1'>
                 <Send />
             </Button>
 
