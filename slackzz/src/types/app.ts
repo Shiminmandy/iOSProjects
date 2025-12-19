@@ -3,6 +3,11 @@
  * supabse.ts文件是自动生成的数据库层类型，结构复杂嵌套深，包含数据库关系信息
  * app.ts文件是业务层类型，结构简单，代码中直接应用
  */
+
+import { NextApiResponse } from "next";
+import {Server as NetServer, Socket} from "net";
+import { Server as SocketIOServer } from "socket.io";
+
 export type User = {
   avatar_url: string;
   channels: string[] | null;
@@ -37,3 +42,11 @@ export type Channel = {
   workspace_id: string;
   user_id: string;
 };
+
+export type SocketIoApiResponse = NextApiResponse & {
+  socket: Socket & {
+    server: NetServer & {
+      io: SocketIOServer;
+    };
+  }
+}

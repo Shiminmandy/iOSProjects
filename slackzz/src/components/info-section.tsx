@@ -22,7 +22,7 @@ const InfoSection: FC<{
   userData: User;
   currentWorkspaceData: Workspace;
   userWorkspaceChannels: Channel[];
-  currentChannelId: string;
+  currentChannelId: string | undefined;
 }> = ({ userData, currentWorkspaceData, userWorkspaceChannels, currentChannelId }) => {
 
   const { color } = useColorPreferences();

@@ -9,6 +9,7 @@ import { Channel, Workspace as UserWorkspace } from '@/types/app';
 import ChatHeader from '@/components/chat-header';
 import Typography from '@/components/ui/typography';
 import TextEditor from '@/components/text-editor';
+import ChatGroup from '@/components/chat-group';
 
 const ChannelId = async ({ params }: { params: Promise<{ workspaceId: string, channelId: string }> }) => {
 
@@ -26,7 +27,7 @@ const ChannelId = async ({ params }: { params: Promise<{ workspaceId: string, ch
     const userWorkspaceChannels = await getUserWorkspaceChannels(currentWorkspaceData.id, userData.id);
 
 
-    const currentChannelData = (userWorkspaceChannels as Channel[]).find(
+    const currentChannelData = (userWorkspaceChannels as Channel[])?.find(
         channel => channel.id === channelId
     )
 
@@ -36,33 +37,21 @@ const ChannelId = async ({ params }: { params: Promise<{ workspaceId: string, ch
 
     return (
         <div className='hidden md:block'>
-
-            <div className='h-[calc(100vh-256px)]  overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-[6px] [&::-webkit-scrollbar-thumb]:bg-foreground/60 [&::-webkit-scrollbar-track:bg-none [&::-webkit-scrollbar]:w-2'>
-                <Sidebar
-                    currentWorkspaceData={currentWorkspaceData}
-                    userData={userData}
-                    userWorkspacesData={userWorkspaceData as UserWorkspace[]}
-                />
-
-                <InfoSection
-                    userData={userData}
-                    currentWorkspaceData={currentWorkspaceData}
-                    userWorkspaceChannels={userWorkspaceChannels as Channel[]}
-                    currentChannelId={channelId}
-                />
-
-                <div className='p-4 relative w-full overflow-hidden'>
-                    <ChatHeader title={currentChannelData.name} />
-
-                    <div className='mt-10'>
-                        <Typography text='Chat Content' variant='h4' />
-                    </div>
-                </div>
-            </div>
-
-            <div className='m-4'>
-                <TextEditor apiUrl={`/api/web-socket/messages`} type='channel' channel={currentChannelData} workspaceData={currentWorkspaceData} userData={userData} />
-            </div>
+            <ChatGroup 
+            type='Channel' 
+            socketUrl={`/api/web-socket/messages`} 
+            apiUrl={`/api/messages`} 
+            headerTitle={currentChannelData.name} 
+            chatId={currentChannelData.id} 
+            socketQuery={{channelId: currentChannelData.id, workspaceId: currentWorkspaceData.id}} 
+            paramKey='channelId' 
+            paramValue={channelId} 
+            userData={userData} 
+            currentWorkspaceData={currentWorkspaceData} 
+            userWorkspaceData={userWorkspaceData as UserWorkspace[]} 
+            currentChannelData={currentChannelData} 
+            userWorkspaceChannels={userWorkspaceChannels as Channel[]}
+            slug={workspaceId} />
         </div>
 
     )

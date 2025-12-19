@@ -7,11 +7,11 @@ import { User } from '@/types/app';
 
 type ChatHeaderProp = {
     title: string;
-    // chatId: string;
-    // userData: User;
+    chatId?: string;
+    userData: User;
 }
 
-const ChatHeader: FC<ChatHeaderProp> = ({ title }) => {
+const ChatHeader: FC<ChatHeaderProp> = ({ title, chatId, userData }) => {
 
 
 

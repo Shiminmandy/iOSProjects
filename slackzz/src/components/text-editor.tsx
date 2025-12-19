@@ -15,13 +15,21 @@ import MenuBar from './manu-bar'
 
 type TextEditorProps = {
     apiUrl: string;
-    type: 'channel' | 'directMessage';
-    channel: Channel;
+    type: 'Channel' | 'DirectMessage';
+    channel?: Channel;
     workspaceData: Workspace;
     userData: User;
+    recipientId?: string;
 };
 
-const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData, userData }) => {
+const TextEditor: FC<TextEditorProps> = ({
+    apiUrl,
+    type,
+    channel,
+    workspaceData,
+    userData,
+    recipientId,
+}) => {
 
     const [content, setContent] = useState('')
 
@@ -35,7 +43,7 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData,
         extensions: [
             StarterKit,
             PlaceHolder.configure({
-                placeholder: `Message #${type === 'channel' ? channel.name : "username"}`,
+                placeholder: `Message #${channel ? channel.name : 'USERNAME'}`,
             }),
         ],
         autofocus: true,
@@ -49,11 +57,23 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData,
     const handleSend = async () => {
         if (!content) return;
 
-        try {
-            await axios.post(`${apiUrl}?channelId=${channel.id}&workspaceId=${workspaceData.id}`,
-                {
-                    content,
-                }
+        try{
+            const payload = {
+                content,
+                type,
+            }   
+
+            let endpoint = apiUrl;
+
+            if (type === 'Channel' && channel) {
+                endpoint += `?channelId=${channel.id}&workspaceId=${workspaceData.id}`
+            } else if (type === 'DirectMessage' && recipientId) {
+                endpoint += `?recipientId=${recipientId}&workspaceId=${workspaceData.id}`
+            }
+        
+            await axios.post(
+                endpoint,
+                payload
             );
 
             setContent('');
@@ -104,6 +124,7 @@ const TextEditor: FC<TextEditorProps> = ({ apiUrl, type, channel, workspaceData,
                         userData={userData}
                         workspaceData={workspaceData}
                         channel={channel}
+                        recipientId={recipientId}
                         toggleFileUploadModal={toggleFileUploadModal}
                     />
                 </DialogContent>

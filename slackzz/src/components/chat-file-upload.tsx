@@ -17,7 +17,8 @@ import { toast } from 'sonner';
 type ChatFileUploadProps = {
     userData: User;
     workspaceData: Workspace;
-    channel: Channel;
+    channel?: Channel;
+    recipientId?: string;
     toggleFileUploadModal: () => void;
 }
 
@@ -34,7 +35,12 @@ const formSchema = z.object({
         }, 'File must be a PDF or image')
 });
 
-const ChatFileUpload: FC<ChatFileUploadProps> = ({ userData, workspaceData, channel, toggleFileUploadModal }) => {
+const ChatFileUpload: FC<ChatFileUploadProps> = ({
+    userData,
+    workspaceData, 
+    channel,
+    recipientId,
+    toggleFileUploadModal }) => {
 
     const [isUploading, setIsUploading] = useState(false);
 
@@ -58,20 +64,20 @@ const ChatFileUpload: FC<ChatFileUploadProps> = ({ userData, workspaceData, chan
         const supabase = await supabaseBrowserClient;
 
         let fileTypePrefix = '';
-        if (file.type === 'application/pdf' ){
+        if (file.type === 'application/pdf') {
             fileTypePrefix = 'pdf';
         } else if (file.type.startsWith('image/')) {
             fileTypePrefix = 'image';
-        } 
+        }
 
         const fileName = `chat/${fileTypePrefix}-${uniqueId}`;
 
-        const {data, error} = await supabase.storage
-        .from("chat-files")
-        .upload(fileName, file ,{
-            cacheControl: '3600',
-            upsert: false
-        });
+        const { data, error } = await supabase.storage
+            .from("chat-files")
+            .upload(fileName, file, {
+                cacheControl: '3600',
+                upsert: false
+            });
 
         if (error) {
             console.log("FAILED TO UPLOAD FILE: ", error);
@@ -79,13 +85,35 @@ const ChatFileUpload: FC<ChatFileUploadProps> = ({ userData, workspaceData, chan
             return { error: error.message };
         }
 
-        const {error: messageInsertError} = await supabase.from('messages')
-        .insert({
-            file_url: data.path,
-            user_id: userData.id,
-            channel_id: channel.id,
-            workspace_id: workspaceData.id,
-        })
+        let messageInsertError;
+
+        if (recipientId) {
+
+            const {data: directMessageData, error: dmError} =  await supabase
+            .from('direct_messages')
+            .insert({
+                file_url: data.path,
+                user: userData.id,
+                user_one: userData.id,
+                user_two: recipientId,
+            })
+
+            messageInsertError = dmError;
+
+        } else {
+            const { error: cmError , data: channelMessageData} = await supabase
+            .from('messages')
+            .insert({
+                file_url: data.path,
+                user_id: userData.id,
+                channel_id: channel?.id,
+                workspace_id: workspaceData.id,
+            })
+
+            messageInsertError = cmError;
+        }
+
+            
         if (messageInsertError) {
             console.log("FAILED TO INSERT MESSAGE: ", messageInsertError);
             return { error: messageInsertError.message };
@@ -97,7 +125,7 @@ const ChatFileUpload: FC<ChatFileUploadProps> = ({ userData, workspaceData, chan
         toggleFileUploadModal();
     }
 
-  
+
 
     return (
         <Card>
