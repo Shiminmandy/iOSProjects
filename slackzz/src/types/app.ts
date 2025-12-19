@@ -34,6 +34,20 @@ export type Workspace = {
   super_admin: string;
 };
 
+export type Messages = {
+  channel_id: string
+          created_at: string
+          file_url: string | null
+          id: string
+          is_deleted: boolean
+          message: string | null
+          updated_at: string
+          user_id: string
+          workspace_id: string | null
+}
+
+export type MessageWithUser = Messages & {user:User}
+
 export type Channel = {
   id: string;
   members: string[] | null;

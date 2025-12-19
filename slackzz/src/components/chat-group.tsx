@@ -8,6 +8,7 @@ import InfoSection from './info-section';
 import ChatHeader from './chat-header';
 import Typography from './ui/typography';
 import TextEditor from './text-editor';
+import ChatMessages from './chat-messages';
 
 
 type ChatGroupProps = {
@@ -65,7 +66,19 @@ const ChatGroup: FC<ChatGroupProps> = ({
                     <ChatHeader title={headerTitle} chatId={chatId} userData={userData} />
 
                     <div className='mt-10'>
-                        <Typography text='Chat Content' variant='h4' />
+                        <ChatMessages
+                            userData={userData}
+                            name={currentChannelData?.name ?? 'USERNAME'}
+                            workspaceData={currentWorkspaceData}
+                            chatId={chatId}
+                            apiUrl={apiUrl}
+                            socketUrl={socketUrl}
+                            socketQuery={socketQuery}
+                            paramKey={paramKey}
+                            paramValue={paramValue}
+                            type={type}
+                            channelData={currentChannelData}
+                        />    
                     </div>
                 </div>
             </div>
