@@ -6,7 +6,7 @@ import { MessageWithUser } from "@/types/app";
 
 type CahtFetcherProps = {
     queryKey:string;
-    api:string;
+    apiUrl:string;
     paramKey:'channelId' | 'recipientId';
     paramValue:string;
     pageSize:number;
@@ -15,7 +15,7 @@ type CahtFetcherProps = {
 
 export const useChatFetcher = ({
     queryKey,
-    api,
+    apiUrl,
     paramKey,
     paramValue,
     pageSize,
@@ -24,7 +24,7 @@ export const useChatFetcher = ({
 
     const fetcher = async ({pageParam = 0}: any) : Promise<{ data: MessageWithUser[]} >=> {
 
-        const url = `4{apiUrl}?${paramKey}=${encodeURIComponent(
+        const url = `${apiUrl}?${paramKey}=${encodeURIComponent(
             paramValue
         )}&page=${pageParam}&size=${pageSize}`;
 

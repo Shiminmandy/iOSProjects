@@ -124,3 +124,4 @@
 - `page.tsx`：提供“具体页面内容”，并由 Next.js 注入到 layout 的 `{children}`
 - 动态路由 `[workspaceId]` / `[channelId]`：决定 `params` 的 key 与值，驱动页面加载不同 workspace/channel 的数据
 
+

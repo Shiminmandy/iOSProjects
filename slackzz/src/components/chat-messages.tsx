@@ -34,10 +34,11 @@ const ChatMessages:FC<ChatMessagesProps> = ({
     const queryKey = 
         type === 'Channel' ? `channel:${chatId}` : `direct_message:${chatId}`;
 
+    {/** 这些全都是 React Query 的 useInfiniteQuery 自带的返回值 */}
     const {data, status, fetchNextPage, hasNextPage, isFetchingNextPage} =
      useChatFetcher({
         queryKey,
-        api: apiUrl,
+        apiUrl,
         paramKey,
         paramValue,
         pageSize: 10,
