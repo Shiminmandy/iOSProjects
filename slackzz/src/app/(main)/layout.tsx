@@ -3,6 +3,7 @@ import { FC, ReactNode } from 'react'
 import { ColorPreferencesProvider } from '@/providers/color-preferences';
 import MainContent from '@/components/main-content';
 import { WebSocketProvider } from '@/providers/web-socket';
+import QueryProvider from '@/providers/query-provider';
 
 // children 功能： ({children}) 结构的是嵌套在该layout下的页面组件的jsx内容。
 // 当访问/(main) 下的任意页面时，nextjs会调用MainLayout，并把对应页面的渲染结果作为children传给它。
@@ -18,10 +19,13 @@ const MainLayout: FC<{ children: ReactNode }> = ({ children }) => {
         >
             {/** 全局WebSocketProvider， 让所有组件都能访问同一个socket实例
              * layout在同一路由树切换页面时不会写在，连接不会反复断开重连
+             * providers的嵌套顺序很重要，内层可以访问外层，外层不能访问内层
              */}
             <WebSocketProvider>
             <ColorPreferencesProvider>
-            <MainContent>{children}</MainContent>
+            <MainContent>
+                <QueryProvider>{children}</QueryProvider>
+                </MainContent>
             </ColorPreferencesProvider>
             </WebSocketProvider>
         </ThemeProvider>
