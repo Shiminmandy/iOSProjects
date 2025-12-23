@@ -89,8 +89,9 @@ const ChatGroup: FC<ChatGroupProps> = ({
                     type={type}
                     channel={currentChannelData}
                     workspaceData={currentWorkspaceData}
-                    userData={userData} />
+                    userData={userData}
                     recipientId={type === 'DirectMessage' ? chatId : undefined}
+                />
             </div>
         </div>
     )

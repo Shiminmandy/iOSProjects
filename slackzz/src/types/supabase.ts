@@ -56,36 +56,36 @@ export type Database = {
           },
         ]
       }
-      message: {
+      messages: {
         Row: {
           channel_id: string
+          content: string | null
           created_at: string
           file_url: string | null
           id: string
           is_deleted: boolean
-          message: string | null
           updated_at: string
           user_id: string
           workspace_id: string | null
         }
         Insert: {
           channel_id: string
+          content?: string | null
           created_at?: string
           file_url?: string | null
           id?: string
           is_deleted?: boolean
-          message?: string | null
           updated_at?: string
           user_id?: string
           workspace_id?: string | null
         }
         Update: {
           channel_id?: string
+          content?: string | null
           created_at?: string
           file_url?: string | null
           id?: string
           is_deleted?: boolean
-          message?: string | null
           updated_at?: string
           user_id?: string
           workspace_id?: string | null

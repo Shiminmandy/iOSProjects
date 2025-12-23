@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: SocketIoApiRespo
         channel_id: channelId,
         workspace_id: workspaceId,
         content,
-        fileUrl: fileUrl,
+        file_url: fileUrl,
     })
     .select('*, user:user_id(*)')
     .order(`created_at`, {ascending: true})

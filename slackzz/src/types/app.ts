@@ -5,7 +5,7 @@
  */
 
 import { NextApiResponse } from "next";
-import {Server as NetServer, Socket} from "net";
+import { Server as NetServer, Socket } from "net";
 import { Server as SocketIOServer } from "socket.io";
 
 export type User = {
@@ -26,7 +26,7 @@ export type Workspace = {
   created_at: string;
   id: string;
   image_url: string | null;
-  invite_code: string ;
+  invite_code: string;
   members: string[] | null;
   name: string;
   regulators: string[] | null;
@@ -35,18 +35,18 @@ export type Workspace = {
 };
 
 export type Messages = {
-  channel_id: string
-          created_at: string
-          file_url: string | null
-          id: string
-          is_deleted: boolean
-          message: string | null
-          updated_at: string
-          user_id: string
-          workspace_id: string | null
-}
+  channel_id: string;
+  created_at: string;
+  file_url: string | null;
+  id: string;
+  is_deleted: boolean;
+  content: string | null;
+  updated_at: string;
+  user_id: string;
+  workspace_id: string | null;
+};
 
-export type MessageWithUser = Messages & {user:User}
+export type MessageWithUser = Messages & { user_id: User };
 
 export type Channel = {
   id: string;
@@ -62,5 +62,5 @@ export type SocketIoApiResponse = NextApiResponse & {
     server: NetServer & {
       io: SocketIOServer;
     };
-  }
-}
+  };
+};
