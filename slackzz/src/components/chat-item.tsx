@@ -1,11 +1,23 @@
 import { User, Channel } from '@/types/app';
 
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import Typography from './ui/typography';
 import { useChatFile } from '@/hooks/use-chat-file';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Form, FormControl, FormField, FormItem } from './ui/form';
+import { cn } from '@/lib/utils';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z from 'zod';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { MdOutlineAdminPanelSettings } from 'react-icons/md';
+import { Edit, Trash } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@radix-ui/react-dialog';
+import { DialogHeader } from './ui/dialog';
+import axios from 'axios';
 
 type ChatItemProps = {
     id: string;
@@ -20,6 +32,11 @@ type ChatItemProps = {
     socketQuery: Record<string, string>;
     channelData?: Channel;
 }
+
+{/** 表单验证规则 */ }
+const formSchema = z.object({
+    content: z.string().min(2),
+});
 
 const ChatItem: FC<ChatItemProps> = ({
     id,
@@ -37,6 +54,18 @@ const ChatItem: FC<ChatItemProps> = ({
 
     {/** 自定义hook从supabse获取文件的公共 URL 和文件类型 */ }
     const { publicUrl, fileType } = useChatFile(fileUrl!);
+    const [isEditing, setIsEditing] = useState(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+
+    {/** 表单实例, 使用react-hook-form的useForm钩子创建*/ }
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            content: content ?? '',
+        },
+    });
 
     {/** 判断是否是超级管理员 */ }
     const isSuperAdmin = currentUser.id === channelData?.user_id;
@@ -46,6 +75,20 @@ const ChatItem: FC<ChatItemProps> = ({
     const canEditeMessage = !deleted && isOwner && !fileUrl;
     const isPdf = fileType === 'pdf' && fileUrl;
     const isImage = fileType === 'image' && fileUrl;
+    const isLoading = form.formState.isSubmitting;
+
+
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        console.log(values);
+    }
+
+    const handleDelete = async () => {
+        setIsDeleting(true);
+        const url = `${socketUrl}/4{id}?${new URLSearchParams(socketQuery)}`;
+        await axios.delete(url);
+        setIsDeleting(false);
+        setOpenDeleteDialog(false);
+    }
 
     const FilePreview = () => (
         <>
@@ -88,6 +131,120 @@ const ChatItem: FC<ChatItemProps> = ({
         </>
     );
 
+    const EditableContent = () => (
+        isEditing ? (
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} >
+
+                    <fieldset
+                        className='flex items-center w-full gap-x-2 pt-2'
+                        disabled={isLoading}
+                    >
+                        <FormField
+                            control={form.control}
+                            name='content'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            className='p-2 border-none bg-transparent border-0 focus-visible:ring-0 focus-visitble:ring-offset-0'
+                                            placeholder='edited message'
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <Button size='sm'>Save</Button>
+                    </fieldset>
+                </form>
+                <span>Press ESC to cancel, enter to save</span>
+
+            </Form>
+        ) : (
+            <div className={cn('text-sm', { 'text-xs opacity-90 italic': deleted })}
+                dangerouslySetInnerHTML={{ __html: content ?? '' }}
+            />
+        )
+    )
+
+    const DeleteDialog = () => {
+        <Dialog
+            onOpenChange={() => setOpenDeleteDialog(prevState => !prevState)}
+            open={openDeleteDialog}
+        >
+            <DialogTrigger>
+                <Trash size={20} />
+            </DialogTrigger>
+
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>
+                        Are you sure you want to delete?
+                    </DialogTitle>
+                    <DialogDescription>
+                        This action cannot be undone. This will permanently delete the message.
+                    </DialogDescription>
+                    <div className='text-center'>
+                        {isPdf && (
+                            <div className='items-start justify-center gap-3 relative'>
+                                <Typography variant='p' text='Shared a PDF file' />
+                                <Link
+                                    href={publicUrl}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='text-blue-600 hover:underline'
+                                >
+                                    View PDF
+                                </Link>
+                            </div>
+                        )}
+                        {!fileUrl && !isEditing && (
+                            <div
+                                className='text-sm'
+                                dangerouslySetInnerHTML={{ __html: content ?? '' }}
+                            />
+                        )}
+                        {isImage && (
+                            <Link
+                                href={publicUrl}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                className='relative aspect-square rounded-md mt-2 overflow-hidden border flex items-center bg-secondary h-28 w-48'
+                            >
+                                <Image
+                                    src={publicUrl}
+                                    alt={content ?? ''}
+                                    fill
+                                    className='object-cover'
+                                />
+                            </Link>
+                        )}
+                    </div>
+                </DialogHeader>
+
+                <div className='flex flex-col gap-2'>
+                    <Button
+                    onClick={() => setOpenDeleteDialog(false)}
+                    className='w-full'
+                    variant='secondary'
+                    disabled={isDeleting}
+                    >
+                        No, cancel
+                    </Button>
+                    <Button
+                    onClick={handleDelete}
+                    className='w-full'
+                    variant='secondary'
+                    disabled={isDeleting}
+                    >
+                        Yes, delete
+                    </Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+    }
+
     return (
         <div className='relative group flex items-center hover:bg-black/5 px-1 py-2 rounded transition w-full'>
             <div className='flex gap-x-2'>
@@ -103,7 +260,36 @@ const ChatItem: FC<ChatItemProps> = ({
                         </AvatarFallback>
                     </Avatar>
                 </div>
+                <div className='flex flex-col w-full'>
+                    <div className='flex items-center gap-x-2'>
+                        <Typography
+                            variant='p'
+                            text={user.name ?? user.email}
+                            className='text-sm font-semibold hover:underline cursor-pointer'
+                        />
+                        {isSuperAdmin && (<MdOutlineAdminPanelSettings className='w-5 h-5' />)}
+                        {isRegulator && (<MdOutlineAdminPanelSettings className='w-5 h-5' />)}
+
+                        {isUpdated && !deleted && <span className='text-xs'>(edited)</span>}
+                        <span>{timestamp}</span>
+                    </div>
+                    <FilePreview />
+                    {!fileUrl && <EditableContent />}
+                </div>
             </div>
+
+            {canDeleteMesage && (
+                <div className='hidden absolute group-hover:flex flex-row gap-2 border bg-white dark:bg-black dark:text-white text-black rounded-md p-2 top-0 -translate-y-1/3 right-0'>
+                    {
+                        canEditeMessage && (
+                            <Edit
+                                className='cursor-pointer'
+                                size={20}
+                                onClick={() => setIsEditing(true)}
+                            />
+                        )}
+                </div>
+            )}
         </div>
     )
 }
