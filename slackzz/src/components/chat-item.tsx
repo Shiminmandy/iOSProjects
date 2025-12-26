@@ -38,6 +38,7 @@ const formSchema = z.object({
     content: z.string().min(2),
 });
 
+{/** 聊天消息项组件：渲染单条消息，包含用户头像、消息内容、编辑/删除功能 */ }
 const ChatItem: FC<ChatItemProps> = ({
     id,
     content,
@@ -78,18 +79,21 @@ const ChatItem: FC<ChatItemProps> = ({
     const isLoading = form.formState.isSubmitting;
 
 
+    {/** 处理表单提交：保存编辑后的消息内容 */ }
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         console.log(values);
     }
 
+    {/** 处理删除消息：发送 DELETE 请求到服务器删除消息 */ }
     const handleDelete = async () => {
         setIsDeleting(true);
-        const url = `${socketUrl}/4{id}?${new URLSearchParams(socketQuery)}`;
+        const url = `${socketUrl}/${id}?${new URLSearchParams(socketQuery)}`;
         await axios.delete(url);
         setIsDeleting(false);
         setOpenDeleteDialog(false);
     }
 
+    {/** 文件预览组件：根据文件类型（图片/PDF）渲染不同的预览界面 */ }
     const FilePreview = () => (
         <>
             {isImage && (
@@ -131,6 +135,7 @@ const ChatItem: FC<ChatItemProps> = ({
         </>
     );
 
+    {/** 可编辑内容组件：根据 isEditing 状态切换显示编辑表单或普通消息内容 */ }
     const EditableContent = () => (
         isEditing ? (
             <Form {...form}>
@@ -168,7 +173,8 @@ const ChatItem: FC<ChatItemProps> = ({
         )
     )
 
-    const DeleteDialog = () => {
+    {/** 删除确认对话框组件：显示删除确认弹窗，包含消息预览和确认/取消按钮 */ }
+    const DeleteDialog = () => (
         <Dialog
             onOpenChange={() => setOpenDeleteDialog(prevState => !prevState)}
             open={openDeleteDialog}
@@ -225,30 +231,34 @@ const ChatItem: FC<ChatItemProps> = ({
 
                 <div className='flex flex-col gap-2'>
                     <Button
-                    onClick={() => setOpenDeleteDialog(false)}
-                    className='w-full'
-                    variant='secondary'
-                    disabled={isDeleting}
+                        onClick={() => setOpenDeleteDialog(false)}
+                        className='w-full'
+                        variant='secondary'
+                        disabled={isDeleting}
                     >
                         No, cancel
                     </Button>
                     <Button
-                    onClick={handleDelete}
-                    className='w-full'
-                    variant='secondary'
-                    disabled={isDeleting}
+                        onClick={handleDelete}
+                        className='w-full'
+                        variant='secondary'
+                        disabled={isDeleting}
                     >
                         Yes, delete
                     </Button>
                 </div>
             </DialogContent>
         </Dialog>
-    }
+    )
 
     return (
         <div className='relative group flex items-center hover:bg-black/5 px-1 py-2 rounded transition w-full'>
+            {/* 消息项容器：整个消息项的包裹容器，支持 hover 效果 */}
+            {/* 消息内容区域：包含头像和消息主体 */}
             <div className='flex gap-x-2'>
+                {/* 用户头像容器：可点击的头像区域 */}
                 <div className='cursor-pointer hover:drop-shadow-md transition '>
+                    {/* 头像组件：显示用户头像，失败时显示用户名首字母 */}
                     <Avatar>
                         <AvatarImage
                             src={user.avatar_url}
@@ -260,26 +270,38 @@ const ChatItem: FC<ChatItemProps> = ({
                         </AvatarFallback>
                     </Avatar>
                 </div>
+                {/* 消息主体区域：包含用户名、消息内容、文件预览等 */}
                 <div className='flex flex-col w-full'>
+                    {/* 消息头部信息：用户名、管理员标识、编辑标记、时间戳 */}
                     <div className='flex items-center gap-x-2'>
+                        {/* 用户名显示 */}
                         <Typography
                             variant='p'
                             text={user.name ?? user.email}
                             className='text-sm font-semibold hover:underline cursor-pointer'
                         />
+                        {/* 超级管理员标识图标 */}
                         {isSuperAdmin && (<MdOutlineAdminPanelSettings className='w-5 h-5' />)}
+                        {/* 频道管理员标识图标 */}
                         {isRegulator && (<MdOutlineAdminPanelSettings className='w-5 h-5' />)}
 
+                        {/* 编辑标记：显示消息是否被编辑过 */}
                         {isUpdated && !deleted && <span className='text-xs'>(edited)</span>}
+                        {/* 时间戳显示 */}
                         <span>{timestamp}</span>
                     </div>
+                    {/* 文件预览组件：显示图片或 PDF 文件预览 */}
                     <FilePreview />
+                    {/* 可编辑内容组件：非文件消息时显示，支持编辑和普通显示 */}
                     {!fileUrl && <EditableContent />}
                 </div>
             </div>
 
+            {/* 操作按钮区域：鼠标悬停时显示编辑/删除按钮 */}
             {canDeleteMesage && (
                 <div className='hidden absolute group-hover:flex flex-row gap-2 border bg-white dark:bg-black dark:text-white text-black rounded-md p-2 top-0 -translate-y-1/3 right-0'>
+                    {/* 编辑按钮：只有有编辑权限时显示 */}
+                    <DeleteDialog />
                     {
                         canEditeMessage && (
                             <Edit
