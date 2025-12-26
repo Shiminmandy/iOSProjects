@@ -57,6 +57,15 @@ export type Channel = {
   user_id: string;
 };
 
+{/** 
+ * Socket.io 响应类型扩展
+ * 扩展了 NextApiResponse，添加了 Socket.io 服务器访问能力
+ * 
+ * 使用示例：
+ * res?.socket?.server?.io?.emit('event', data)  // 广播消息
+ * 
+ * 注意：使用可选链 ?. 确保属性存在时才访问
+ */}
 export type SocketIoApiResponse = NextApiResponse & {
   socket: Socket & {
     server: NetServer & {
