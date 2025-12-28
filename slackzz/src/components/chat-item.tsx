@@ -80,8 +80,11 @@ const ChatItem: FC<ChatItemProps> = ({
 
 
     {/** 处理表单提交：保存编辑后的消息内容 */ }
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+    const onSubmit = async ({content}: z.infer<typeof formSchema>) => {
+        const url = `${socketUrl}/${id}${new URLSearchParams(socketQuery)}`;
+        await axios.patch(url, {content});
+        setIsEditing(false);
+        form.reset();
     }
 
     {/** 处理删除消息：发送 DELETE 请求到服务器删除消息 */ }

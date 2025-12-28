@@ -55,6 +55,7 @@ export type Channel = {
   regulators: string[] | null;
   workspace_id: string;
   user_id: string;
+  created_at: string;
 };
 
 {/** 

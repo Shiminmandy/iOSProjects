@@ -11,7 +11,7 @@ type IntroBannerProps = {
 
 
 
-const IntroBanner: FC<IntroBannerProps> = ({
+export const IntroBanner: FC<IntroBannerProps> = ({
     type,
     name,
     creationDate
