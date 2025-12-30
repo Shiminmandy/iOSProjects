@@ -16,6 +16,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ProgressBar from "./progress-bar";
 import { useColorPreferences } from "@/providers/color-preferences";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
 
 type SidebarNavProps = {
     userWorkspacesData: Workspace[];
@@ -49,6 +51,17 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
         setSwitchingWorkspace(true);
         router.push(`/workspace/${id}`);
     };
+    
+    {/** 复制邀请链接 */}
+    const copyInviteLink = (inviteCode: string) => {
+
+        const currentDomain = window.location.origin;
+
+        navigator.clipboard.writeText(
+            `${currentDomain}/create-workspace/${inviteCode}`
+        );
+        toast.success('Invite link copied to clipboard');
+    }
 
     return (
         <nav>
@@ -91,7 +104,7 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                                             className={cn(
                                                                 isActive && backgroundColor
                                                                 , 'cursor-pointer px-2 py-1 flex gap-2')}
-                                                            onClick={() => switchWorkspace(workspace.id)}
+                                                            onClick={() => !isActive && switchWorkspace(workspace.id)}
                                                         >
                                                             <Avatar className='w-10 h-10'>
                                                                 <AvatarImage
@@ -113,11 +126,19 @@ const SidebarNav: FC<SidebarNavProps> = ({ currentWorkspaceData, userWorkspacesD
                                                                     text={workspace.name}
                                                                     className='text-sm'
                                                                 />
-                                                                <Typography
-                                                                    variant='p'
-                                                                    text={workspace.invite_code || ''}
-                                                                    className=' text-xs lg:text-xs'
-                                                                />
+                                                                <div className='flex items-center gap-x-2'>
+                                                                    <Typography
+                                                                        variant='p'
+                                                                        text={'Copy Invite LInk'}
+                                                                        className=' text-xs lg:text-xs'
+                                                                    />
+
+                                                                    <Copy
+                                                                        size={16}
+                                                                        className='cursor-pointer'
+                                                                        onClick={() => copyInviteLink(workspace.invite_code)}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     )

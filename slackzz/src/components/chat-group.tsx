@@ -9,6 +9,7 @@ import ChatHeader from './chat-header';
 import Typography from './ui/typography';
 import TextEditor from './text-editor';
 import ChatMessages from './chat-messages';
+import SearchBar from './search-bar';
 
 
 type ChatGroupProps = {
@@ -60,6 +61,12 @@ const ChatGroup: FC<ChatGroupProps> = ({
                     currentChannelId={
                         type === 'Channel' ? currentChannelData?.id : undefined
                     }
+                />
+
+                <SearchBar
+                    currentWorkspaceData={currentWorkspaceData}
+                    currentChannelData={currentChannelData}
+                    loggedInUserId={userData.id}
                 />
 
                 <div className='p-4 relative w-full overflow-hidden'>

@@ -52,9 +52,16 @@ const InfoSection: FC<{
     router.push(url);
   }
 
+  const navigationToDirectMessage = (memberId: string) => {
+    const url = `/workspace/${currentWorkspaceData.id}/direct-message/${memberId}`;
+    router.push(url);
+  }
+
   const [isChannelCollapsed, setIsChannelCollapsed] = useState(true);
   const [isDirectMessagesCollapsed, setIsDirectMessagesCollapsed] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+
 
   return (
     <div
@@ -125,23 +132,18 @@ const InfoSection: FC<{
             </div>
 
             <CollapsibleContent>
-              <Typography
-                variant='p'
-                text='User Name 1'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', secondayBg)}
-              />
+              {currentWorkspaceData?.members?.map(member => {
 
-              <Typography
-                variant='p'
-                text='User Name 2'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', secondayBg)}
-              />
-
-              <Typography
-                variant='p'
-                text='User Name 3'
-                className={cn('px-2 py-1 rounded-sm cursor-pointer', secondayBg)}
-              />
+                return (
+                  <Typography
+                    key={member.id}
+                    variant='p'
+                    text={member.name || member.email}
+                    className={cn('px-2 py-1 rounded-sm cursor-pointer', `hover:${secondayBg}`)}
+                    onClick={() => navigationToDirectMessage(member.id)}
+                  />
+                )
+              })}
             </CollapsibleContent>
           </Collapsible>
 

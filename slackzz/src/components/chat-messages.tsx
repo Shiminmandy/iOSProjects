@@ -109,7 +109,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({
   return (
 
 
-    <div className='flex-1 flex flex-col py-4 overflow-y-auto'>
+    <div ref={chatRef} className='flex-1 flex flex-col py-4 overflow-y-auto'>
       {!hasNextPage && (
         <IntroBanner
           type={type}
@@ -131,6 +131,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({
       <div className='flex flex-col-reverse mt-auto'>
         {renderMessages()}
       </div>
+      {/** 标记底部区域，用于滚动到底部 */}
       <div ref={bottomRef} />
 
     </div>
@@ -138,3 +139,37 @@ const ChatMessages: FC<ChatMessagesProps> = ({
 }
 
 export default ChatMessages
+
+/**
+ * 1. 用户点击 "Load previous messages" 按钮
+   ↓
+2. 触发 fetchNextPage()
+   ↓
+3. 显示加载动画
+   ┌─────────────────────────┐
+   │    [加载动画...]         │ ← isFetchingNextPage = true
+   ├─────────────────────────┤
+   │ Message 10              │
+   │ Message 9               │
+   │ ...                     │
+   └─────────────────────────┘
+   ↓
+4. 请求下一页数据（page=1, size=10）
+请求: GET /api/messages?channelId=123&page=1&size=10
+   - 获取更早的 10 条消息（Message 20-11）
+   ↓
+5. 数据加载完成
+   ┌─────────────────────────┐
+   │ [Load previous messages]│ ← 如果还有更多
+   ├─────────────────────────┤
+   │ Message 20              │ ← 新加载的（更早）
+   │ Message 19              │
+   │ ...                     │
+   │ Message 11              │
+   ├─────────────────────────┤
+   │ Message 10              │ ← 之前加载的
+   │ Message 9               │
+   │ ...                     │
+   │ Message 1               │
+   └─────────────────────────┘
+ */

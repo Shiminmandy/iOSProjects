@@ -102,3 +102,47 @@ export const updateWorkspaceChannel = async (
 
   return [updateWorkspaceChannelData, updateWorkspaceChannelError];
 };
+
+{/* 更新频道监管者
+  参数: 
+  channelId: string, 频道ID
+  userId: string，用户ID
+  */}
+export const updateChannelRegulators = async (channelId: string, userId: string) => {
+
+  const supabase = await supabaseServerClient();
+  const {data: updateChannelData, error: updateChannelError} = await supabase
+  .rpc("update_channel_regulators", {
+    new_regulator: userId,
+    channel_id: channelId,
+  });
+
+  return [updateChannelData, updateChannelError];
+};
+
+{/* 
+  输入参数:
+- new_regulator = "user-123"
+- channel_id = "channel-456"
+
+执行前:
+channels 表:
+┌─────────────┬─────────────────────┐
+│ id          │ regulators          │
+├─────────────┼─────────────────────┤
+│ channel-456 │ ["user-alice"]      │
+└─────────────┴─────────────────────┘
+
+执行 SQL:
+UPDATE channels 
+SET regulators = regulators || array['user-123']
+WHERE id = 'channel-456'
+
+执行后:
+channels 表:
+┌─────────────┬─────────────────────────────┐
+│ id          │ regulators                   │
+├─────────────┼─────────────────────────────┤
+│ channel-456 │ ["user-alice", "user-123"]  │
+└─────────────┴─────────────────────────────┘
+  */}
