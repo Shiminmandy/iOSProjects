@@ -2,8 +2,8 @@ import { shadow } from "@/styles/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import DarkModeToggle from "./DarkModeToggle";
-import LogOutButton from "./LogOutButton";
+import { DarkModeToggle } from "./dark-mode-toggle";
+import { LogOutButton } from "./logout-button";
 //import { getUser } from "@/auth/server";
 import { SidebarTrigger } from "./ui/sidebar";
 
