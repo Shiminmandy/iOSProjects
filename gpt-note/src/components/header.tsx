@@ -4,11 +4,12 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import DarkModeToggle from "./DarkModeToggle";
 import LogOutButton from "./LogOutButton";
-import { getUser } from "@/auth/server";
+//import { getUser } from "@/auth/server";
 import { SidebarTrigger } from "./ui/sidebar";
 
 async function Header() {
-  const user = await getUser();
+  // const user = await getUser();
+  const user = null;
 
   return (
     <header
