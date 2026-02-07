@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Tech Stack
+
+Built with **Next.js 16** (App Router), **React 19**, and **TypeScript**. Styled with **Tailwind CSS 4** and **Radix UI** components. Features dark mode support via **next-themes**, toast notifications with **Sonner**, and icons from **Lucide React**. Powered by **React Compiler** for optimized performance.
+
 ## Getting Started
 
 First, run the development server:
